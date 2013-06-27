@@ -1,0 +1,48 @@
+@font-face {
+	font-family: cool_font;
+	src: url('../share/LeckerliOne-Regular.otf');
+}
+
+body{
+	color: white;
+	font-size: 1.3em;
+	font-family: Arial;
+	letter-spacing:0em;
+	background-color:#3A817D;
+	padding-top:3em;
+}
+
+
+#line{
+	border: solid 0.2em white;
+	border-left: 0;
+	border-right: 0;
+	width:100%;
+	padding-top:1em ; 
+	padding-bottom:1em ;
+}
+
+#gradient_bottom{
+	position:fixed;
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	background-image:url("../img/bottomgradient.png");
+	background-position: left bottom;
+	background-repeat:repeat-x;
+}
+#gradient_top{
+	position:fixed;
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	background-image:url("../img/topgradient.png");
+	background-position: left top;
+	background-repeat:repeat-x;
+}
+
+
