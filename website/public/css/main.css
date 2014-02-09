@@ -8,30 +8,14 @@ html {
 } 
 
 body {
-   display: -webkit-box;   /* OLD: Safari,  iOS, Android browser, older WebKit browsers.  */
-   display: -moz-box;      /* OLD: Firefox (buggy) */ 
-   display: -ms-flexbox;   /* MID: IE 10 */
-   display: -webkit-flex;  /* NEW, Chrome 21–28, Safari 6.1+ */
-   display: flex;          /* NEW: IE11, Chrome 29+, Opera 12.1+, Firefox 22+ */
-	font-family: Verdana;
-   -webkit-box-align: center; -moz-box-align: center; /* OLD… */
-   -ms-flex-align: center; /* You know the drill now… */
-   -webkit-align-items: center;
-   align-items: center;
+   font-family: Verdana;
    font-size:1.2em;
-
-   -webkit-box-pack: center; -moz-box-pack: center; 
-   -ms-flex-pack: center; 
-   -webkit-justify-content: center;
-   justify-content: center;
-   -webkit-flex-direction: column;
-
    margin: 0;
    height: 100%;
    width: 100%; /* needed for Firefox */
    color: white;
    background-color : #6e4c5a;
-   
+   overflow:hidden;
 } 
 
 .hasback{
@@ -39,9 +23,8 @@ body {
 }
 
 #menu{
-	position: absolute;
 	padding-left:60px;
-	top:60px;
+	padding-top:60px;
 	z-index: 999;
 
 }
@@ -54,8 +37,10 @@ body {
 #menu li{
 	opacity:0.4;
 	display: inline;
+	position:relative;
 	margin: 0;
 	bottom:0;
+	z-index:999;
 }
 #menu li.selected{
 	font-weight:bold;
@@ -82,23 +67,9 @@ a{
 
 
 #centercontainer{
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
+
   width:100%;
-  -webkit-box-align: center;
-     -moz-box-align: center;
-     -ms-flex-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-  -webkit-box-pack: center;
-     -moz-box-pack: center;
-     -ms-flex-pack: center;
-  -webkit-justify-content: left;
-          justify-content: left;
-  -webkit-flex-direction: column;
+ 
 }
 
 #highlightcontainer{
@@ -108,22 +79,50 @@ a{
 	min-height: 2.6em;
 	max-height: 2.6em;
 	height: 2.6em;
-	z-index: 999;
+	z-index: 800;
 	position:relative;
 	overflow: hidden;
-	background-color:#4F3742;
 
+
+}
+
+.secondcolor{
+	background-color:#4F3742;
+}
+
+#rightpanel{
+	padding:2em;
+	position: absolute;
+	z-index:999;
+	right:0;
+	top:0;
+	height:100%;
+	width: 50%;
+	box-shadow: -10px -10px 10px rgba(10,10,10,0.5);
 }
 
 #highlightcontainer .recipe{
 	display: block;
 	margin-left:1.6em;
-	padding-left:400px;
+	padding-left:80px;
 }
 
 #uppercontainer, #lowercontainer{
 	width:100%;
 } 
+
+#lowerlist{
+	max-height:100%;
+	height:100%;
+}
+#uppercontainer{
+	margin-top:2.4em;
+}
+#lowercontainer{
+	padding-bottom:5px;
+	overflow:hidden;
+	height:100%;
+}
 
 .border{
 	opacity:0;
@@ -137,7 +136,9 @@ a{
 .recipelist{
 	display: inline-block;
 	overflow: hidden;
+	max-height: 3.6em;
 	opacity:0.8;
+	padding-left:40px;
 
 }
 .recipe{
@@ -148,7 +149,7 @@ a{
 .navigarrow{
 	display: inline-block;
 	margin: 0.3em;
-	margin-left: 400px;
+	margin-left: 60px;
 	opacity:0.4;
 	position:relative;
 	z-index:900;

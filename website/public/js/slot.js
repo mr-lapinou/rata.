@@ -59,7 +59,6 @@ function spinDown(){
 				$("#lowerlist > .recipe").last().remove();				
 				$("#highlightcontainer > .recipe").last().remove();
 				$("#upperlist > .recipe").last().remove();
-				
 				$(".recipe").each(function(){
 					$(this).css({ "top": "0em" });
 				});
