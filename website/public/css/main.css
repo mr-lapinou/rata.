@@ -13,11 +13,12 @@ body {
    display: -ms-flexbox;   /* MID: IE 10 */
    display: -webkit-flex;  /* NEW, Chrome 21–28, Safari 6.1+ */
    display: flex;          /* NEW: IE11, Chrome 29+, Opera 12.1+, Firefox 22+ */
-	font-family: Arial;
+	font-family: Verdana;
    -webkit-box-align: center; -moz-box-align: center; /* OLD… */
    -ms-flex-align: center; /* You know the drill now… */
    -webkit-align-items: center;
    align-items: center;
+   font-size:1.2em;
 
    -webkit-box-pack: center; -moz-box-pack: center; 
    -ms-flex-pack: center; 
@@ -33,7 +34,9 @@ body {
    
 } 
 
-
+.hasback{
+	background-color: #6e4c5a;
+}
 
 #menu{
 	position: absolute;
@@ -43,12 +46,28 @@ body {
 
 }
 #menu h1{
-	font-size:4em;
+	font-size:5em;
 	font-family: cool_font;
 	margin: 0em;
+	display: inline-block;
+}
+#menu li{
+	opacity:0.4;
+	display: inline;
+	margin: 0;
+	bottom:0;
 }
 #menu li.selected{
 	font-weight:bold;
+	opacity:1;
+}
+
+#menu li:hover{
+	opacity:1;
+}
+
+#menu ul{
+	display: inline;
 }
 ul{
 	list-style-type: none;
@@ -59,6 +78,8 @@ a{
 	text-decoration: none;
 	color: white;
 }
+
+
 
 #centercontainer{
   display: -webkit-box;
@@ -82,36 +103,40 @@ a{
 
 #highlightcontainer{
 	width:100%;
-	border-top: solid white 0.15em;
-	border-bottom: solid white 0.15em;
 	padding-top:0.3em;
 	padding-bottom:0.3em;
-	background-color : #6e4c5a;
 	min-height: 2.6em;
 	max-height: 2.6em;
 	height: 2.6em;
 	z-index: 999;
+	position:relative;
 	overflow: hidden;
+	background-color:#4F3742;
+
 }
 
 #highlightcontainer .recipe{
 	display: block;
+	margin-left:1.6em;
 	padding-left:400px;
+}
 
+#uppercontainer, #lowercontainer{
+	width:100%;
+} 
+
+.border{
+	opacity:0;
 }
 
 #highlightcontainer .recipe.highlight{
-	padding-left:400px;
 	font-family: cool_font;
 	font-size: 2em;
 }
 
 .recipelist{
-	display: block;
+	display: inline-block;
 	overflow: hidden;
-	width: 100%;
-	margin-left: 800px;
-	padding-left: 1em;
 	opacity:0.8;
 
 }
@@ -119,12 +144,22 @@ a{
 	position: relative;
 }
 
-#upperlist{
 
-
+.navigarrow{
+	display: inline-block;
+	margin: 0.3em;
+	margin-left: 400px;
+	opacity:0.4;
+	position:relative;
+	z-index:900;
 }
-#lowerlist{
-	
+
+.navigarrow:hover{
+	opacity:1;
+}
+.navigarrow.down{
+	top:0;
+	vertical-align:top;
 }
 
 #line{
@@ -158,4 +193,11 @@ a{
 	z-index: -999;
 }
 
+#footer{
+	font-size: 0.4em;
+
+	position:absolute;
+	bottom:0;
+	right:0;
+}
 
