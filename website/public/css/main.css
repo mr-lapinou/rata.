@@ -8,8 +8,9 @@ html {
 } 
 
 body {
-   font-family: Verdana;
-   font-size:1.2em;
+   font-family: "myriad pro";
+   font-weight:lighter;
+   font-size:120%;
    margin: 0;
    height: 100%;
    width: 100%; /* needed for Firefox */
@@ -22,6 +23,7 @@ body {
 	background-color: #6e4c5a;
 }
 
+
 #menu{
 	padding-left:60px;
 	padding-top:60px;
@@ -29,7 +31,7 @@ body {
 
 }
 #menu h1{
-	font-size:5em;
+	font-size:500%;
 	font-family: cool_font;
 	margin: 0em;
 	display: inline-block;
@@ -41,18 +43,38 @@ body {
 	margin: 0;
 	bottom:0;
 	z-index:999;
+	-webkit-transition: opacity 0.2s ease-in-out;
+    -moz-transition: opacity 0.2s ease-in-out;
+    -o-transition: opacity 0.2s ease-in-out;
+    -ms-transition: opacity 0.2s ease-in-out;    
+    transition: opacity 0.2s ease-in-out;
 }
 #menu li.selected{
 	font-weight:bold;
 	opacity:1;
+
 }
 
 #menu li:hover{
 	opacity:1;
 }
 
+#menu a  span{
+	text-align : center;
+	font-size:80%;
+    position:absolute;     
+	margin-bottom:50px;
+    margin-right:-50%;	 
+	visibility: visible;
+}
+
+#menu li:hover span{
+	transform:scale(1) rotate(0);   
+	visibility: visible;     
+}
 #menu ul{
 	display: inline;
+	margin-left:25px;
 }
 ul{
 	list-style-type: none;
@@ -72,7 +94,7 @@ a{
  
 }
 
-#highlightcontainer{
+#bandcontainer{
 	width:100%;
 	padding-top:0.3em;
 	padding-bottom:0.3em;
@@ -82,13 +104,33 @@ a{
 	z-index: 800;
 	position:relative;
 	overflow: hidden;
+}
 
+#wheel{
+	display: inline-block;
+	margin-left: 60px;
+	opacity:0.5;
+}
 
+#wheel:hover{
+	opacity:1;
+}
+
+#highlightcontainer{
+	display: inline-block;
 }
 
 .secondcolor{
 	background-color:#4F3742;
 }
+
+.clickable{ cursor: pointer; cursor: hand; 
+-webkit-transition: opacity 0.2s ease-in-out;
+    -moz-transition: opacity 0.2s ease-in-out;
+    -o-transition: opacity 0.2s ease-in-out;
+    -ms-transition: opacity 0.2s ease-in-out;    
+    transition: opacity 0.2s ease-in-out;}
+
 
 #rightpanel{
 	padding:2em;
@@ -99,12 +141,17 @@ a{
 	height:100%;
 	width: 50%;
 	box-shadow: -10px -10px 10px rgba(10,10,10,0.5);
+	background-image:url(../img/filigrane-01.png);
+	background-repeat:no-repeat;
+	background-position:right bottom;
 }
 
 #highlightcontainer .recipe{
 	display: block;
 	margin-left:1.6em;
-	padding-left:80px;
+}
+#bandcontainer img{
+	vertical-align:top;
 }
 
 #uppercontainer, #lowercontainer{
@@ -118,6 +165,10 @@ a{
 #uppercontainer{
 	margin-top:2.4em;
 }
+
+#uppercontainer img{
+	vertical-align : bottom;
+}
 #lowercontainer{
 	padding-bottom:5px;
 	overflow:hidden;
@@ -130,7 +181,7 @@ a{
 
 #highlightcontainer .recipe.highlight{
 	font-family: cool_font;
-	font-size: 2em;
+	font-size: 200%;
 }
 
 .recipelist{
@@ -195,10 +246,10 @@ a{
 }
 
 #footer{
-	font-size: 0.4em;
+	font-size: 50%;
 
 	position:absolute;
 	bottom:0;
-	right:0;
+	left:10px;
 }
 
