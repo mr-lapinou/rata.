@@ -36,11 +36,17 @@ body {
 	margin: 0em;
 	display: inline-block;
 }
+img{ margin:0; padding:0;}
+
+
 #menu li{
 	opacity:0.4;
 	display: inline;
 	position:relative;
 	margin: 0;
+	margin-right: -4px;
+	padding:0;
+	border:0;
 	bottom:0;
 	z-index:999;
 	-webkit-transition: opacity 0.2s ease-in-out;
@@ -59,22 +65,41 @@ body {
 	opacity:1;
 }
 
-#menu a  span{
+#menu li div.tooltip{
+	width:250px;
 	text-align : center;
 	font-size:80%;
     position:absolute;     
-	margin-bottom:50px;
-    margin-right:-50%;	 
-	visibility: visible;
+	top:-60px; 
+	opacity:0;
+	-webkit-transition: opacity 0.2s ease-in-out;
+    -moz-transition: opacity 0.2s ease-in-out;
+    -o-transition: opacity 0.2s ease-in-out;
+    -ms-transition: opacity 0.2s ease-in-out;    
+    transition: opacity 0.2s ease-in-out;
 }
 
-#menu li:hover span{
-	transform:scale(1) rotate(0);   
-	visibility: visible;     
+#menu li#menu1 div.tooltip{left:0px;}
+#menu li#menu2 div.tooltip{left:-50px;}
+#menu li#menu3 div.tooltip{left:-100px;}
+#menu li#menu4 div.tooltip{left:-150px;}
+#menu li#menu5 div.tooltip{left:-200px;}
+
+
+
+
+#menu li div.tooltip img{
+	margin-top:5px;
+}
+
+
+#menu li:hover div.tooltip{
+	opacity:1;    
 }
 #menu ul{
 	display: inline;
 	margin-left:25px;
+	padding:0;
 }
 ul{
 	list-style-type: none;
