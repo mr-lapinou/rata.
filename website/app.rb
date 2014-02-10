@@ -1,6 +1,32 @@
 require 'rubygems'
 require 'sinatra'
+require 'grape'
 require './ratamodel'
+
+
+
+class RataApi < Grape::API
+	version 'v1', :using => :param
+	format :json
+
+	resources :recipes do 
+		desc "return list of recipes"
+		get 'list/:type' do 
+			list = []
+			for counter in 0..10
+				list.push(counter.to_s => 'recette'+counter.to_s)
+			end
+			list
+		end
+
+		get 'detail/:id' do
+			{:content =>'NOM NOM NOM'}
+		end
+	end
+
+end
+
+
 
 
 class RataApp < Sinatra::Base

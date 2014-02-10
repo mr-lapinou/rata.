@@ -29,21 +29,33 @@ function luckywheel(){
 }
 
 function changeContent (type){
-	closePanel(animationLoad(type));
+	closePanel(animationLoadstart(type));
 }
-function animationLoad(type){
+function animationLoadstart(type){
 	$("#centercontainer").hide( 'slide', { direction : 'right'  }, 300, function(){
 		$("#menu > ul > .selected").removeClass("selected");
+		$("#loading").fadeIn();
 		$('body' ).animate({ backgroundColor: colorscheme[type-1]}, 500,function(){
 			$(".secondcolor").css({ "background-color": colorschemeband[type-1]});
 			$("#rightpanel").css('background-image', 'url(img/filigrane-0' + type + '.png)');
 			$("#menu > ul >#menu"+type).addClass("selected");
-			$("#centercontainer").show( 'slide', { direction : 'right'  }, 300);
+			$.ajax({ type: "GET", url: "/recipes/list/"+type,  dataType:"json"}).done(function(content){
+				$(".recipe").remove();
+				animationLoadend();
+			});
 		});
 		
 	});
-	requestPanelOpening();	
 }
+
+function animationLoadend(){
+	$("#loading").fadeOut("fast");
+	openPanel();
+	$("#centercontainer").show( 'slide', { direction : 'right'  }, 500);
+}
+
+
+
 
 function closePanel(callback){
 	$("#rightpanel").hide( 'slide', { direction : 'right'  }, 300,callback);

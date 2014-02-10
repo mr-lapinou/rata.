@@ -1,2 +1,4 @@
 require './app'
-run RataApp
+
+use Rack::Session::Cookie
+run Rack::Cascade.new [RataApi, RataApp]
