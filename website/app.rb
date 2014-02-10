@@ -12,6 +12,7 @@ class RataApi < Grape::API
 	resources :recipes do 
 		desc "return list of recipes"
 		get 'list/:type' do 
+			header 'Cache-Control', 'private, max-age=3600'
 			list = []
 			n = params[:type].to_i
 			for counter in 2..n*2
@@ -27,8 +28,8 @@ class RataApi < Grape::API
 
 	resources :tags do
 
-		get 'list' do
-			{"1"=>"carotte"}
+		get 'list/:term' do
+			["carotte"]
 		end
 	end
 end

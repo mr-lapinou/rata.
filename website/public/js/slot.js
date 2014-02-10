@@ -13,10 +13,26 @@ var spinvalue;
 $(document).ready(function(){
 	$.ajaxSetup ({  cache: false});
 	$(document).keydown(function(e){
-		console.log(e.which);
-		if(e.which==38) spin(-1);
-		else if (e.which==40) spin(1);
+		if($("input:focus").length==0){
+			if(e.which==38) 
+				spin(-1);
+			else if (e.which==40) 
+				spin(1);
+		}
 	});
+	$(function() {
+	    function split( val ) {
+	      return val.split( /,\s*/ );
+	    }
+	    function extractLast( term ) {
+	      return split( term ).pop();
+	    }
+	 
+	    $( "#taglist" ).autocomplete({
+	        source: "/tags/list/l",
+	        minLength: 2
+	    });    
+  	});
 });
 
 
@@ -137,7 +153,7 @@ function spinDown(){
 	nup = $("#upperlist > .recipe").length;
 	var l = $("#upperlist > .recipe").last().clone();
 	$("#highlightcontainer").prepend(l);
-	if(nup>3){
+	if(nup>=3){
 		var l = $("#lowerlist > .recipe").last().clone();
 		$("#upperlist").prepend(l);
 		var l = $("#highlightcontainer > .recipe").last().clone();
@@ -172,7 +188,7 @@ function spinUp(){
 	numberitems = $(".recipelist div").length;
 	doneitems =0;	
 	nup = $("#upperlist > .recipe").length;
-	if(nup>3){
+	if(nup>=3){
 		var l = $("#lowerlist > .recipe").first().clone();
 		$("#highlightcontainer").append(l);
 			var l = $("#upperlist > .recipe").first().clone();
