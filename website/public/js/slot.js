@@ -26,12 +26,32 @@ $(document).ready(function(){
 	    }
 	    function extractLast( term ) {
 	      return split( term ).pop();
-	    }
-	 
-	    $( "#taglist" ).autocomplete({
-	        source: "/tags/list/l",
-	        minLength: 2
-	    });    
+	    }	 
+	    $( "#taglist" ).selectize({
+	    	plugins: ['remove_button'],
+			delimiter: ',',
+			persist: false,
+			createOnBlur: true,
+			create: function(input) {
+				return {
+					value: input,
+					text: input
+				}
+			},
+			load: function(query, callback) {
+						if (query.length<2) return callback();
+						$.ajax({
+							url: 'tags/list/' + encodeURIComponent(query),
+							type: 'GET',
+							error: function() {
+								callback();
+							},
+							success: function(res) {
+								callback(res.tags.slice());
+							}
+						});
+					}
+		});
   	});
 });
 

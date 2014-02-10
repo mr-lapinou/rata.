@@ -29,7 +29,7 @@ class RataApi < Grape::API
 	resources :tags do
 
 		get 'list/:term' do
-			["carotte"]
+			{:tags =>[{:value =>"carotte"}]}
 		end
 	end
 end
