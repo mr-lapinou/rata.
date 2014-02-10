@@ -19,6 +19,12 @@ module RataModel
 		property :isDesert, Boolean
 	end
 
+	class Tag
+		include DataMapper::Resource
+		property :id, Serial 
+		property :text, String
+	end	
+
 	DataMapper.finalize
 	DataMapper.auto_migrate!
 end

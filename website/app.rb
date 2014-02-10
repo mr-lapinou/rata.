@@ -13,7 +13,8 @@ class RataApi < Grape::API
 		desc "return list of recipes"
 		get 'list/:type' do 
 			list = []
-			for counter in 0..10
+			n = params[:type].to_i
+			for counter in 2..n*2
 				list.push(counter.to_s => 'recette'+counter.to_s)
 			end
 			list
@@ -24,6 +25,12 @@ class RataApi < Grape::API
 		end
 	end
 
+	resources :tags do
+
+		get 'list' do
+			{"1"=>"carotte"}
+		end
+	end
 end
 
 

@@ -11,6 +11,7 @@ var timerPanelID;
 var spinvalue;
 
 $(document).ready(function(){
+	$.ajaxSetup ({  cache: false});
 	$(document).keydown(function(e){
 		console.log(e.which);
 		if(e.which==38) spin(-1);
@@ -21,9 +22,11 @@ $(document).ready(function(){
 
 function luckywheel(){
 	if (rolling) return;
+	numberitems = $(".recipelist div").length+1;
+	if(numberitems==1) return;
 	rolling =true;
 	cancelPanelOpening();
-	numberitems = $(".recipelist div").length+1;
+	
 	maxroll=numberitems*2+Math.floor(Math.random()*numberitems+1);
 	closePanel(spinDown);
 }
@@ -39,8 +42,10 @@ function animationLoadstart(type){
 			$(".secondcolor").css({ "background-color": colorschemeband[type-1]});
 			$("#rightpanel").css('background-image', 'url(img/filigrane-0' + type + '.png)');
 			$("#menu > ul >#menu"+type).addClass("selected");
-			$.ajax({ type: "GET", url: "/recipes/list/"+type,  dataType:"json"}).done(function(content){
+			$.ajax({ type: "GET",cache: true, url: "/recipes/list/"+type,  dataType:"json"}).done(function(content){
 				$(".recipe").remove();
+				fillListRecipes(content);
+				loadDetail();
 				animationLoadend();
 			});
 		});
@@ -48,11 +53,49 @@ function animationLoadstart(type){
 	});
 }
 
+function fillListRecipes(content){
+	var n=0;
+
+	$.each(content, function( i, c ){
+		$.each( c, function( key, val ) {
+			addRecipeToList( "<div class='recipe' id='recipe_" + key + "'>" + val + "</div>" );
+		});
+		n++;
+	});
+  	if(n==0){
+  		$("#highlightcontainer").append("<div class='recipe highlight' id='recipe_null'>Aucune recette.</div>");
+  	}
+}
+
+function loadDetail(){
+	content="";
+	id = $("#highlightcontainer > .recipe").attr('id').replace("recipe_", "");
+	if(id=="null"){
+		content = "Ajouter ma première recette.";
+	}
+	$("#rightpanel").empty().append(content);
+}
+
+
+
 function animationLoadend(){
 	$("#loading").fadeOut("fast");
 	openPanel();
 	$("#centercontainer").show( 'slide', { direction : 'right'  }, 500);
 }
+
+function addRecipeToList(r){
+	var n= $(".recipelist div").length+$("#highlightcontainer > .recipe").length;
+	var nup = $("#upperlist > .recipe").length;
+	if(n==0){
+		$("#highlightcontainer").append(r);
+	}else if(nup<3){
+		$("#upperlist").append(r);
+	}else{
+		$("#lowerlist").append(r);
+	}
+}
+
 
 
 
@@ -76,6 +119,8 @@ function cancelPanelOpening(){
 
 function spin(delta){
 	if (rolling) return;
+	numberitems = $(".recipelist div").length+1;
+	if(numberitems==1) return;
 	rolling =true;
 	cancelPanelOpening();
 	if(delta<0)
@@ -87,18 +132,24 @@ function spin(delta){
 
 
 function spinDown(){	
-	numberitems = $(".recipelist div").length+4;
+	numberitems = $(".recipelist div").length;
 	doneitems =0;
+	nup = $("#upperlist > .recipe").length;
 	var l = $("#upperlist > .recipe").last().clone();
-	l.addClass("highlight");
 	$("#highlightcontainer").prepend(l);
-	var l = $("#lowerlist > .recipe").last().clone();
-	$("#upperlist").prepend(l);
-	var l = $("#highlightcontainer > .recipe").last().clone();
-	l.removeClass("highlight");
-	$("#lowerlist").prepend(l);
-	$("#lowerlist > .recipe").css({"top": "-1.2em"});
-var time  =  (maxroll>1)?animation_time:200;
+	if(nup>3){
+		var l = $("#lowerlist > .recipe").last().clone();
+		$("#upperlist").prepend(l);
+		var l = $("#highlightcontainer > .recipe").last().clone();
+		$("#lowerlist").prepend(l);
+		$("#lowerlist > .recipe").css({"top": "-1.2em"});
+		numberitems +=4;
+	}else{
+		var l = $("#highlightcontainer > .recipe").last().clone();
+		$("#upperlist").prepend(l);
+		numberitems +=3;
+	}
+	var time  =  (maxroll>1)?animation_time:200;
 	$("#highlightcontainer > .recipe").css({"top": "-1.2em"});
 	$(".recipe").each(function(){
 		$(this).animate({ "top": "+=1.2em" },time,function(){
@@ -118,15 +169,21 @@ var time  =  (maxroll>1)?animation_time:200;
 
 
 function spinUp(){
-	numberitems = $(".recipelist div").length+4;
+	numberitems = $(".recipelist div").length;
 	doneitems =0;	
-	var l = $("#lowerlist > .recipe").first().clone();
-	l.addClass("highlight");	
-	$("#highlightcontainer").append(l);
-	var l = $("#upperlist > .recipe").first().clone();
-	$("#lowerlist").append(l);
+	nup = $("#upperlist > .recipe").length;
+	if(nup>3){
+		var l = $("#lowerlist > .recipe").first().clone();
+		$("#highlightcontainer").append(l);
+			var l = $("#upperlist > .recipe").first().clone();
+		$("#lowerlist").append(l);
+		numberitems +=4;
+	}else{
+		var l = $("#upperlist > .recipe").first().clone();
+		$("#highlightcontainer").append(l);
+		numberitems +=3;
+	}
 	var l = $("#highlightcontainer > .recipe").first().clone();
-	l.removeClass("highlight");
 	$("#upperlist").append(l);
 	$("#highlightcontainer > .recipe").css({"top": "0em"});
 	$("#upperlist > .recipe").css({"top": "1.2em"});

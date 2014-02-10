@@ -10,7 +10,7 @@ html {
 body {
    font-family: "myriad pro";
    font-weight:lighter;
-   font-size:120%;
+   font-size:110%;
    margin: 0;
    height: 100%;
    width: 100%; /* needed for Firefox */
@@ -66,6 +66,7 @@ img{ margin:0; padding:0;}
 }
 
 #menu li div.tooltip{
+	margin-bottom: 5px;
 	width:250px;
 	text-align : center;
 	font-size:80%;
@@ -204,7 +205,7 @@ a{
 	opacity:0;
 }
 
-#highlightcontainer .recipe.highlight{
+#highlightcontainer .recipe{
 	font-family: cool_font;
 	font-size: 200%;
 }
