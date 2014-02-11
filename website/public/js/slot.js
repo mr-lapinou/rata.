@@ -39,18 +39,18 @@ $(document).ready(function(){
 				}
 			},
 			load: function(query, callback) {
-						if (query.length<2) return callback();
-						$.ajax({
-							url: 'tags/list/' + encodeURIComponent(query),
-							type: 'GET',
-							error: function() {
-								callback();
-							},
-							success: function(res) {
-								callback(res.tags.slice());
-							}
-						});
+				if (query.length<2) return callback();
+				$.ajax({
+					url: 'tags/list/' + encodeURIComponent(query),
+					type: 'GET',
+					error: function() {
+						callback();
+					},
+					success: function(res) {
+						callback(res.tags.slice());
 					}
+				});
+			}
 		});
   	});
 });

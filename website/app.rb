@@ -5,9 +5,26 @@ require './ratamodel'
 
 
 
+
+
 class RataApi < Grape::API
+	use Rack::Session::Cookie
 	version 'v1', :using => :param
 	format :json
+
+	helpers do
+		def session
+	        env['rack.session']
+	    end
+	    def current_user
+	        return nil if session[:user_id].nil?
+	        return true
+	    end   
+
+      	def authenticate!
+        error!('401 Unauthorized', 401) unless current_user
+      	end
+    end
 
 	resources :recipes do 
 		desc "return list of recipes"
@@ -15,7 +32,7 @@ class RataApi < Grape::API
 			header 'Cache-Control', 'private, max-age=3600'
 			list = []
 			n = params[:type].to_i
-			for counter in 2..n*2
+			for counter in 1..(n-1)*2
 				list.push(counter.to_s => 'recette'+counter.to_s)
 			end
 			list
@@ -32,13 +49,41 @@ class RataApi < Grape::API
 			{:tags =>[{:value =>"carotte"}]}
 		end
 	end
+
+	resources :user do
+		get 'login' do
+			if(params[:username]=="toto" && params[:password]=='tata')
+				session[:user_id] = params[:username]
+				"logged in "
+			else
+				"failed"
+			end
+
+		end
+
+
+		get 'logout' do
+
+		end
+
+		post 'signin' do
+
+		end
+
+		get 'protected' do
+			authenticate!
+			'protected'
+		end
+
+	end
+
 end
 
 
 
 
 class RataApp < Sinatra::Base
-	enable :sessions
+
 	set :layout_engine => :erb, :layout => :layout
 
 

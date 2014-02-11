@@ -146,6 +146,9 @@ a{
 	display: inline-block;
 }
 
+.firstcolor{
+	background-color : #6e4c5a;
+}
 .secondcolor{
 	background-color:#4F3742;
 }
@@ -165,7 +168,7 @@ a{
 	right:0;
 	top:0;
 	height:100%;
-	width: 50%;
+	width: 35%;
 	box-shadow: -10px -10px 10px rgba(10,10,10,0.5);
 	background-image:url(../img/filigrane-01.png);
 	background-repeat:no-repeat;
@@ -278,13 +281,32 @@ a{
     margin-left: -17px;
     z-index: 999;
     display: none;
-
 }
 
 input{
 	-webkit-border-radius: 5px;
     -moz-border-radius: 5px; 
     border-radius: 5px; 
+}
+
+.createrecipe label{
+	font-family: cool_font;
+	display: block;
+	margin-top: 1.5em;
+}
+.createrecipe input{
+	border: none;
+
+}
+.createrecipe h1{
+	font-family: cool_font;
+	margin-bottom: 0.5em;
+	text-align: center;
+
+}
+
+.createrecipe textarea{
+	
 }
 
 
