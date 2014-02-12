@@ -80,7 +80,12 @@ function animationLoadstart(type){
 			$(".secondcolor").css({ "background-color": colorschemeband[type-1]});
 			$("#rightpanel").css('background-image', 'url(img/filigrane-0' + type + '.png)');
 			$("#menu > ul >#menu"+type).addClass("selected");
-			$.ajax({ type: "GET",data: { key: timestamp},cache: true, url: "/recipes/list/"+type,  dataType:"json"}).done(function(content){
+			$.ajax({ type: "GET",
+				data: { key: timestamp},
+				cache: true, 
+				url: "/recipes/list/"+type,  
+				dataType:"json"})
+			.done(function(content){
 				$(".recipe").remove();
 				fillListRecipes(content);
 				loadDetail();
@@ -108,11 +113,24 @@ function fillListRecipes(content){
 
 function loadDetail(){
 	content="";
+	$("#rightpanel >#container").empty();
 	id = $("#highlightcontainer > .recipe").attr('id').replace("recipe_", "");
 	if(id=="null"){
-		content = "Ajouter ma première recette.";
+		$("#rightpanel > #continer").append("<h1>Ajouter ma première recette.</h1>");
+	}else{
+		$('#loadingrecipe').fadeIn('fast');
+		$.ajax({ type: "GET",
+				data: { key: timestamp},
+				cache: true, 
+				url: "/recipes/detail/"+id,  
+				dataType:"json"})
+		.done(function(content){
+			$('#loadingrecipe').fadeOut('slow');
+			$("#rightpanel > #container").css({'display':'none'});
+			$("#rightpanel > #container").append("<h1>"+content.title+"</h1>");
+			$("#rightpanel > #container").fadeIn('slow');
+		});
 	}
-	$("#rightpanel").empty().append(content);
 }
 
 function connection(){

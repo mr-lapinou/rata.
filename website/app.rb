@@ -30,7 +30,7 @@ class RataApi < Grape::API
 		desc "return list of recipes"
 		get 'list/:type' do 
 			header 'Cache-Control', 'private, max-age=300'
-			out=""+params[:type]
+			out=""
 			case params[:type].to_i
 			when 1				
 				out = RataModel::Recipe.listAppetizer(0)
@@ -65,7 +65,8 @@ class RataApi < Grape::API
 
 
 		get 'detail/:id' do
-			{:content =>'NOM NOM NOM'}
+			header 'Cache-Control', 'private, max-age=300'
+			out = RataModel::Recipe.get(params[:id])
 		end
 
 
@@ -136,20 +137,53 @@ class RataApp < Sinatra::Base
 
 	set :layout_engine => :erb, :layout => :layout
 
+	helpers do
+		def timestamp
+			rand(36**16).to_s(36)
+		end
+	end
 
 
 
 
 	get '/' do 
-
-		timestamp = rand(36**16).to_s(36)
 		erb :home, :locals => {:timestamp =>timestamp}
 
 	end
 
 	get '/recipes/:type' do
+		out=""
+		case params[:type].to_i
+		when 1				
+			out = RataModel::Recipe.listAppetizer(0)
+		when 2				
+			out = RataModel::Recipe.listStarter(0)
+		when 3				
+			out = RataModel::Recipe.listCourse(0)
+		when 4				
+			out = RataModel::Recipe.listSideCourse(0)
+		when 5				
+			out = RataModel::Recipe.listDesert(0)
+		end
+		@upper=[]
+		@middle=[]
+		@lower=[]
+		i=0
+		out.each do |x|
+			puts x
+			if(i==0)
+				@middle.push({x.id => x.title})
+			elsif(i<=3)
+				@upper.push({x.id => x.title})
+			else
+				@lower.push({x.id => x.title})
+			
+			end
+			i+=1
+		end
 
 		
+		erb :home, :locals => {:timestamp =>timestamp}
 	end
 
 
