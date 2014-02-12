@@ -32,4 +32,22 @@
 
 	</form>
 </div>
+
+<div class="overlay"></div>
+<div id="loginscreen" class="overlay-message firstcolor">
+	<form action="#" method="post">
+		<h1>Connexion</h1>
+		<input type="text" placeholder="Adresse e-mail"/>
+		<input type="password" placeholder="Mot de passe"/>
+		<a href="#">Mot de passe oublié ?</a>
+
+		<a>Créer un compte</a></li>
+		<input type="submit" value="Connecter" onclick="connection();return false;"/>
+	</form>
+	<div id="connecting"><h1>Connexion en cours...</h1></div> 
+</div>
 	
+<script type="text/javascript">
+	var timestamp="<%= timestamp %>";
+</script>
+

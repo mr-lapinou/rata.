@@ -306,8 +306,57 @@ input{
 }
 
 .createrecipe textarea{
+
+}
+
+
+.overlay{
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	opacity: 0.5;
+	position: fixed;
+	top:0;
+	left:0;
+	z-index: 1001;
+	display: 	none;
+}
+
+.overlay-message{
+    position: fixed;
+    top:50%;
+    left:50%;
+    width:340px;
+    height:200px;
+    margin-top: -100px;
+    margin-left: -170px;
+    opacity: 1.0;
+    z-index: 1002;
+    box-shadow: -10px 10px 10px rgba(10,10,10,0.5);
+    padding: 2em;
+    text-align: center;
+    display: none;
+}
+.overlay-message h1{
+	font-family: cool_font;
+	margin: 0;
+	padding: 0;
+}
+
+.overlay-message input[type=text], .overlay-message input[type=password]{
+	width:100%;
+	line-height: 1.8em;
+	display: block;
+	margin-top: 1em;
+}
+
+.overlay-message #connecting{
 	
 }
+
+
+
+
 
 
 #footer{

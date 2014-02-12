@@ -8,6 +8,7 @@ var colorscheme= ["#6e4c5a","#d15490","#a8ba42","#fc872e","#3a817d"];
 var colorschemeband= ["#4F3742","#9b4070","#8a9335","#c96928","#2e635f"];
 var timerPanelID;
 
+
 var spinvalue;
 
 $(document).ready(function(){
@@ -42,6 +43,7 @@ $(document).ready(function(){
 				if (query.length<2) return callback();
 				$.ajax({
 					url: 'tags/list/' + encodeURIComponent(query),
+					data: { key: timestamp},
 					type: 'GET',
 					error: function() {
 						callback();
@@ -78,7 +80,7 @@ function animationLoadstart(type){
 			$(".secondcolor").css({ "background-color": colorschemeband[type-1]});
 			$("#rightpanel").css('background-image', 'url(img/filigrane-0' + type + '.png)');
 			$("#menu > ul >#menu"+type).addClass("selected");
-			$.ajax({ type: "GET",cache: true, url: "/recipes/list/"+type,  dataType:"json"}).done(function(content){
+			$.ajax({ type: "GET",data: { key: timestamp},cache: true, url: "/recipes/list/"+type,  dataType:"json"}).done(function(content){
 				$(".recipe").remove();
 				fillListRecipes(content);
 				loadDetail();
@@ -93,6 +95,7 @@ function fillListRecipes(content){
 	var n=0;
 
 	$.each(content, function( i, c ){
+		console.log(c);
 		$.each( c, function( key, val ) {
 			addRecipeToList( "<div class='recipe' id='recipe_" + key + "'>" + val + "</div>" );
 		});
@@ -112,6 +115,9 @@ function loadDetail(){
 	$("#rightpanel").empty().append(content);
 }
 
+function connection(){
+	alert("connection ");
+}
 
 
 function animationLoadend(){
