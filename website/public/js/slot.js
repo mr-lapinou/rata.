@@ -4,8 +4,8 @@ var doneitems=0;
 var rolls=0;
 var maxroll=1;
 var animation_time=2;
-var	colorscheme= ["#BDA272","#6e4c5a","#d15490","#a8ba42","#fc872e","#3a817d"];
-var colorschemeband= ["#96825E","#4F3742","#9b4070","#8a9335","#c96928","#2e635f"];
+var	colorscheme= ["#D82900","#6e4c5a","#d15490","#a8ba42","#fc872e","#3a817d"];
+var colorschemeband= ["#871600","#4F3742","#9b4070","#8a9335","#c96928","#2e635f"];
 var timerPanelID;
 
 
@@ -95,19 +95,23 @@ function animationLoadstart(type){
 		$('body' ).animate({ backgroundColor: colorscheme[type]}, 500,function(){
 			$(".secondcolor").css({ "background-color": colorschemeband[type]});
 			$(".firstcolor").css({ "background-color": colorscheme[type]});
-			$("#rightpanel").css('background-image', 'url(/img/filigrane-0' + type + '.png)');
-			$("#menu > ul >#menu"+type).addClass("selected");
-			$.ajax({ type: "GET",
-				data: { key: timestamp},
-				cache: true, 
-				url: "/recipes/list/"+type,  
-				dataType:"json"})
-			.done(function(content){
-				$(".recipe").remove();
-				fillListRecipes(content);
-				loadDetail();
-				animationLoadend();
-			});
+			if(type!='0'){
+				$("#rightpanel").css('background-image', 'url(/img/filigrane-0' + type + '.png)');
+				$("#menu > ul >#menu"+type).addClass("selected");
+				$.ajax({ type: "GET",
+					data: { key: timestamp},
+					cache: true, 
+					url: "/recipes/list/"+type,  
+					dataType:"json"})
+				.done(function(content){
+					$(".recipe").remove();
+					fillListRecipes(content);
+					loadDetail();
+					animationLoadend();
+				});
+			}else{
+
+			}
 		});		
 	});
 }

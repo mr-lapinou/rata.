@@ -15,8 +15,21 @@
 			.secondcolor{
 				background-color: <%= @secondcolor %>;
 			}
+			<% if(@pagenumber==0) %>
+			#rightpanel, #uppercontainer, #lowercontainer,#wheel,#highlightcontainer{
+				visibility: hidden ;
+			}
+
+			<%else%>
+			#homecontainer{
+				display:none;
+			}
+
+			<% end %>
+
 		</style>
 		<div id="top_gradient"></div>
+		
 		<div>
 			<div id="menu">
 				<h1><a href="/" name="0" title=""><img src="/img/logo.png" /></a></h1>

@@ -143,8 +143,8 @@ class RataApp < Sinatra::Base
 		end
 	end
 
-	colorscheme= ["#BDA272","#6e4c5a","#d15490","#a8ba42","#fc872e","#3a817d"]
-    colorschemesecond= ["#96825E","#4F3742","#9b4070","#8a9335","#c96928","#2e635f"]
+	colorscheme= ["#D82900","#6e4c5a","#d15490","#a8ba42","#fc872e","#3a817d"]
+    colorschemesecond= ["#871600","#4F3742","#9b4070","#8a9335","#c96928","#2e635f"]
 
 
 	get '/' do 
