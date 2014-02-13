@@ -30,7 +30,7 @@ class RataApi < Grape::API
 		desc "return list of recipes"
 		get 'list/:type' do 
 			header 'Cache-Control', 'private, max-age=300'
-			out=""
+			out=[]
 			case params[:type].to_i
 			when 1				
 				out = RataModel::Recipe.listAppetizer(0)
@@ -143,27 +143,43 @@ class RataApp < Sinatra::Base
 		end
 	end
 
-
+	colorscheme= ["#BDA272","#6e4c5a","#d15490","#a8ba42","#fc872e","#3a817d"]
+    colorschemesecond= ["#96825E","#4F3742","#9b4070","#8a9335","#c96928","#2e635f"]
 
 
 	get '/' do 
+		@pagename=""
+		@pagenumber=0;
+		@firstcolor=colorscheme[0]
+		@secondcolor=colorschemesecond[0]
 		erb :home, :locals => {:timestamp =>timestamp}
 
 	end
 
 	get '/recipes/:type' do
+
+
 		out=""
+		@pagename=""
+		@pagenumber=params[:type].to_i
 		case params[:type].to_i
 		when 1				
 			out = RataModel::Recipe.listAppetizer(0)
+			@pagename="Amuse-bouches"
 		when 2				
 			out = RataModel::Recipe.listStarter(0)
+			@pagename="Entrées"
 		when 3				
 			out = RataModel::Recipe.listCourse(0)
+			@pagename="Plats"
 		when 4				
 			out = RataModel::Recipe.listSideCourse(0)
+			@pagename="Accompagnements"
 		when 5				
 			out = RataModel::Recipe.listDesert(0)
+			@pagename="Desserts"
+		else
+			redirect "/"
 		end
 		@upper=[]
 		@middle=[]
@@ -181,7 +197,8 @@ class RataApp < Sinatra::Base
 			end
 			i+=1
 		end
-
+		@firstcolor=colorscheme[@pagenumber]
+		@secondcolor=colorschemesecond[@pagenumber]
 		
 		erb :home, :locals => {:timestamp =>timestamp}
 	end

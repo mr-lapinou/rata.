@@ -61,6 +61,11 @@ img{ margin:0; padding:0;}
 
 }
 
+#menu h1 {
+	z-index: 990;
+	position: relative;
+}
+
 #menu li:hover{
 	opacity:1;
 }

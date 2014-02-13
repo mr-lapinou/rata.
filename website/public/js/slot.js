@@ -4,8 +4,8 @@ var doneitems=0;
 var rolls=0;
 var maxroll=1;
 var animation_time=2;
-var colorscheme= ["#6e4c5a","#d15490","#a8ba42","#fc872e","#3a817d"];
-var colorschemeband= ["#4F3742","#9b4070","#8a9335","#c96928","#2e635f"];
+var	colorscheme= ["#BDA272","#6e4c5a","#d15490","#a8ba42","#fc872e","#3a817d"];
+var colorschemeband= ["#96825E","#4F3742","#9b4070","#8a9335","#c96928","#2e635f"];
 var timerPanelID;
 
 
@@ -13,6 +13,13 @@ var spinvalue;
 
 $(document).ready(function(){
 	$.ajaxSetup ({  cache: false});
+	History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
+        var State = History.getState(); // Note: We are using History.getState() instead of event.state
+    	next=0;
+    	if(State.data.recipe!=null)
+    		next = State.data.recipe;
+    	changeContent(next);
+    });
 	$(document).keydown(function(e){
 		if($("input:focus").length==0){
 			if(e.which==38) 
@@ -21,6 +28,8 @@ $(document).ready(function(){
 				spin(1);
 		}
 	});
+	$("#menu a").click(clickLink);
+
 	$(function() {
 	    function split( val ) {
 	      return val.split( /,\s*/ );
@@ -57,6 +66,13 @@ $(document).ready(function(){
   	});
 });
 
+function clickLink(event){
+	target = event.currentTarget;
+	History.pushState({recipe:target.name}, "Rata. "+target.title, target.href); 
+	return event.preventDefault();
+}
+
+
 
 function luckywheel(){
 	if (rolling) return;
@@ -76,9 +92,10 @@ function animationLoadstart(type){
 	$("#centercontainer").hide( 'slide', { direction : 'right'  }, 300, function(){
 		$("#menu > ul > .selected").removeClass("selected");
 		$("#loading").fadeIn();
-		$('body' ).animate({ backgroundColor: colorscheme[type-1]}, 500,function(){
-			$(".secondcolor").css({ "background-color": colorschemeband[type-1]});
-			$("#rightpanel").css('background-image', 'url(img/filigrane-0' + type + '.png)');
+		$('body' ).animate({ backgroundColor: colorscheme[type]}, 500,function(){
+			$(".secondcolor").css({ "background-color": colorschemeband[type]});
+			$(".firstcolor").css({ "background-color": colorscheme[type]});
+			$("#rightpanel").css('background-image', 'url(/img/filigrane-0' + type + '.png)');
 			$("#menu > ul >#menu"+type).addClass("selected");
 			$.ajax({ type: "GET",
 				data: { key: timestamp},
@@ -91,8 +108,7 @@ function animationLoadstart(type){
 				loadDetail();
 				animationLoadend();
 			});
-		});
-		
+		});		
 	});
 }
 
