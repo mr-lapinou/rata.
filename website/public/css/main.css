@@ -294,18 +294,6 @@ a{
     display: none;
 }
 
-input{
-	-webkit-border-radius: 5px;
-    -moz-border-radius: 5px; 
-    border-radius: 5px; 
-    opacity: 60%;
-}
-
-input:focus{
-	opacity: 100%;
-}
-
-
 .createrecipe label{
 	font-family: cool_font;
 	display: block;
@@ -341,7 +329,7 @@ input:focus{
 	width: 100%;
 	height: 100%;
 	background-color: black;
-	opacity: 0.5;
+	opacity: 0.7;
 	position: fixed;
 	top:0;
 	left:0;
@@ -361,37 +349,77 @@ input:focus{
 	background-position:right bottom;
 }
 
-.overlay-message{
+#loginscreen{
     position: fixed;
-    top:50%;
-    left:50%;
-    width:340px;
-    height:200px;
-    margin-top: -100px;
-    margin-left: -170px;
+    top:0;
+    right:0;
+    width:250px;
+    height:400px;
+    margin-right: 50px;
+    margin-top: -10px;
     opacity: 1.0;
     z-index: 1002;
     box-shadow: -10px 10px 10px rgba(10,10,10,0.5);
-    padding: 2em;
     text-align: center;
-    display: none;
+
 }
-.overlay-message h1{
+#loginscreen h1{
 	font-family: cool_font;
+	text-align: center;
 	margin: 0;
 	padding: 0;
+	margin-top: 50px;
 }
 
-.overlay-message input[type=text], .overlay-message input[type=password]{
-	width:100%;
+#loginscreen input[type=submit],#loginscreen input[type=text], #loginscreen input[type=password]{
+	border: 0;
+	opacity: 0.8;
+	color: white;
+	padding: 10px;
+	width:200px;
 	line-height: 1.8em;
 	display: block;
+	margin-left: 20px;
 	margin-top: 1em;
 }
 
-.overlay-message #connecting{
-	
+#loginscreen input[type=image]{
+	opacity: 1;
+	text-align: center;
+	float:right;
+	margin-top: 10px;
+	margin-right: -14px;
 }
+#loginscreen p{
+	margin-top: 80px;
+	width: 200px;
+	display: block;
+	margin-left: 25px;
+}
+#loginscreen a {
+	display: block;
+}
+
+.imgClass { 
+    background-image: url(/img/connection.png);
+    background-position:  0px 0px;
+    background-repeat: no-repeat;
+    position: absolute;
+    margin-right: -14px;
+    right: 0;
+    width: 149px;
+    height: 69px;
+    border: 0px;
+    background-color: none;
+    cursor: pointer;
+    outline: 0;
+}
+
+#loginscreen input[type=text]:focus, #loginscreen input[type=password]:focus{
+	border: 0;
+	opacity: 1;
+}
+
 
 
 
