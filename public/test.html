@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link rel="stylesheet" href="css/main.css" type="text/css" media="screen" />
+		<title>Rata.</title>
+	</head>
+	<body>
+		<div id="top_gradient"></div>
+		<div>
+			<div id="menu">
+				<h1><img src="img/logo.png" /></h1>
+				<ul>
+					<li id="menu1" class="selected"><div class="tooltip">Amuse-bouches<img src="img/topping_arrow-01.png"/></div><a href="#" onclick="changeContent(1);return false;"><img src="img/picto-01.png"></a></li>
+					<li id="menu2" class=""><div class="tooltip">Entrées<img src="img/topping_arrow-02.png"/></div><a href="#" onclick="changeContent(2);return false;"><img src="img/picto-02.png"></a></li>
+					<li id="menu3" class=""><div class="tooltip">Plats<img src="img/topping_arrow-03.png"/></div><a href="#" onclick="changeContent(3);return false;"><img src="img/picto-03.png"></a></li>
+					<li id="menu4" class=""><div class="tooltip">Accompagnements<img src="img/topping_arrow-04.png"/></div><a href="#" onclick="changeContent(4);return false;"><img src="img/picto-04.png"></a></li>
+					<li id="menu5" class=""><div class="tooltip">Desserts<img src="img/topping_arrow-05.png"/></div><a href="#" onclick="changeContent(5);return false;"><img src="img/picto-05.png"></a></li>
+				</ul>
+			</div>
+			<div id="centercontainer">
+				<div id="uppercontainer">
+					<img class="navigarrow up clickable" src="img/arrow_up.png" onclick="spin(-1);"/>
+					<div id="upperlist" class="recipelist">
+						<div class="recipe">Elem 1</div>
+						<div class="recipe">Elem 2</div>
+						<div class="recipe">Elem 3</div>
+
+					</div>
+				</div>
+				<div id="bandcontainer" class="secondcolor">
+					<img src="img/roue.png" id="wheel" class="clickable" onclick="luckywheel();"/>
+					<div id="highlightcontainer" > 
+						
+						<div class="recipe highlight">
+							Aucune de recette. 
+						</div>
+					</div>	
+				</div>
+				<div id="lowercontainer">
+					<img class="navigarrow down clickable" src="img/arrow_down.png" onclick="spin(1);"/>
+					<div id="lowerlist" class="recipelist">
+						<div class="recipe">Elem 4</div>
+						<div class="recipe">Elem 5</div>
+						<div class="recipe">Elem 6</div>
+						<div class="recipe">Elem 7</div>
+						<div class="recipe">Elem 8</div>
+						<div class="recipe">Elem 9</div>
+						<div class="recipe">Elem 10</div>
+						<div class="recipe">Elem 11</div>
+						<div class="recipe">Elem 12</div>
+						<div class="recipe">Elem 13</div>
+						<div class="recipe">Elem 14</div>
+						<div class="recipe">Elem 15</div>
+						<div class="recipe">Elem 16</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="rightpanel" class="secondcolor">
+			contenu
+		</div>
+		<div id="bottom_gradient"></div>
+		<div id="footer">
+			Création originale <a href="https://twitter.com/Lolyan_">@lolyan_</a> et <a href="https://twitter.com/mrlapinou">@mrlapinou</a>.
+		</div>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="js/slot.js"></script>
+		<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+	</body>
+</html>
