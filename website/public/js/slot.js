@@ -181,6 +181,7 @@ function addRecipeToList(r){
 
 
 function closePanel(callback){
+	$("#loginscreen").hide( 'slide', { direction : 'up'  }, 200,callback);
 	$("#rightpanel").hide( 'slide', { direction : 'right'  }, 300,callback);
 }
 
