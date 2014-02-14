@@ -13,6 +13,12 @@
 		</div>
 	</div>
 	<div id="bandcontainer" class="secondcolor">
+		<div id="searchfield" class="firstcolor">
+			<form>
+				<input type="text" class="firstcolor" placeholder="Recherche"/>
+				<input type="image" src="/img/magnify.png" alt="submit" name="submit" onclick="return false;"/>
+			</form>
+		</div>
 		<img src="/img/roue.png" id="wheel" class="clickable" onclick="luckywheel();"/>
 		<div id="highlightcontainer" > 
 			<% if not @middle.nil? and  not @middle.empty? %>
@@ -62,7 +68,7 @@
 		<input type="text" class="firstcolor" placeholder="Login"/>
 		<input type="password"  class="firstcolor" placeholder="Mot de passe"/>
 		<a style="margin-left:25px;text-align:left;font-size:80%;" href="#">Mot de passe oublié ?</a>
-		<input type="image" src="/img/connection.png" alt="submit" name="submit" onclick()/>
+		<input type="image" src="/img/connection.png" alt="submit" name="submit" onclick="return false;"/>
 
 		<p>Pas encore inscrit ? <a href='#'>Créez un compte !</a></p>
 		

@@ -79,8 +79,7 @@ function luckywheel(){
 	numberitems = $(".recipelist div").length+1;
 	if(numberitems==1) return;
 	rolling =true;
-	cancelPanelOpening();
-	
+	cancelPanelOpening();	
 	maxroll=numberitems*2+Math.floor(Math.random()*numberitems+1);
 	closePanel(spinDown);
 }
@@ -96,6 +95,7 @@ function animationLoadstart(type){
 			$(".secondcolor").css({ "background-color": colorschemeband[type]});
 			$(".firstcolor").css({ "background-color": colorscheme[type]});
 			if(type!='0'){
+				$("#searchfield").hide();
 				$("#rightpanel").css('background-image', 'url(/img/filigrane-0' + type + '.png)');
 				$("#menu > ul >#menu"+type).addClass("selected");
 				$.ajax({ type: "GET",
@@ -110,7 +110,13 @@ function animationLoadstart(type){
 					animationLoadend();
 				});
 			}else{
-
+				$('#rightpanel, #uppercontainer, #lowercontainer,#wheel,#highlightcontainer').css({"visibility":'hidden'});
+				$('#searchfield').show();
+				$(".recipe").remove();
+				$("#loading").fadeOut("fast");
+				$("#homecontainer").hide( 'slide', { direction : 'right'  }, 300,function(){
+					$("#centercontainer").show( 'slide', { direction : 'right'  }, 500);
+				});
 			}
 		});		
 	});
@@ -181,7 +187,8 @@ function addRecipeToList(r){
 
 
 function closePanel(callback){
-	$("#loginscreen").hide( 'slide', { direction : 'up'  }, 200,callback);
+	$("#homecontainer").hide( 'slide', { direction : 'right'  }, 200);
+	$("#loginscreen").hide( 'slide', { direction : 'up'  }, 200);
 	$("#rightpanel").hide( 'slide', { direction : 'right'  }, 300,callback);
 }
 

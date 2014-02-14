@@ -20,13 +20,15 @@
 				visibility: hidden ;
 			}
 
+
 			<%else%>
 			#homecontainer{
 				display:none;
 			}
-
+			#searchfield{
+				display: none;
+			}
 			<% end %>
-
 		</style>
 		<div id="top_gradient"></div>
 		
@@ -39,6 +41,13 @@
 					<li id="menu3" <% if(@pagenumber==3) %> class="selected "<% end %>	><div class="tooltip">Plats<img src="/img/topping_arrow-03.png"/></div><a title="Plats" name="3" href="/recipes/3" ><img src="/img/picto-03.png"></a></li>
 					<li id="menu4" <% if(@pagenumber==4) %> class="selected "<% end %>	><div class="tooltip">Accompagnements<img src="/img/topping_arrow-04.png"/></div><a title="Accompagnements" name="4" href="/recipes/4" ><img src="/img/picto-04.png"></a></li>
 					<li id="menu5" <% if(@pagenumber==5) %> class="selected "<% end %>	><div class="tooltip">Desserts<img src="/img/topping_arrow-05.png"/></div><a title="Desserts" name="5" href="/recipes/5"><img src="/img/picto-05.png"></a></li>
+				</ul>
+				<ul id="connection">
+					<li>
+						<img src="/img/toque.png" />
+						<a title="login" name="login" href="/login">Me connecter.</a>
+					</li>
+
 				</ul>
 			</div>
 		<%= yield %>
