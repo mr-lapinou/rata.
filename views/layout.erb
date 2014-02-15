@@ -36,13 +36,14 @@
 				<li id="menu5" <% if(@pagenumber==5) %> class="selected "<% end %>	><div class="tooltip">Desserts<img src="/img/topping_arrow-05.png"/></div><a title="Desserts" name="5" href="/recipes/5"><img src="/img/picto-05.png"></a></li>
 			</ul>
 			<div id="connection">									
-				<a title="login" name="login" href="/login" >
-					<img src="/img/toque.png" />
+				<a title="login" class="clickable" name="login" href="/login" >
+					<img style='position: relative' src="/img/toque.png" />
 					<span>Se connecter</span>
 				</a>
 			</div>
 		</div>
 		<div id="loginscreen" class=" secondcolor">
+			<img src='/img/croix.png' class='clickable' id='close' onclick='dismissLoginScreen();'/>
 			<form action="#" method="post">
 				<h1>Connexion</h1>
 				<span id="error"></span>
@@ -50,11 +51,11 @@
 				<input type="password" required id="password" name="password" class="firstcolor" placeholder="Mot de passe"/>
 				<a style="margin-left:25px;text-align:left;font-size:80%;" href="#">Mot de passe oublié ?</a>
 				<input type="image" src="/img/connection.png" alt="submit" name="submit" />
-
-		<p><a href='#'>Pas encore inscrit ? Créez un compte !</a></p>
-		
-	</form>
-</div>
+				<p>
+					<a href='#'>Pas encore inscrit ? Créez un compte 	!</a>
+				</p>
+			</form>
+		</div>
 		<%= yield %>
 		<div id="bottom_gradient"></div>
 		<div id="footer">

@@ -76,7 +76,12 @@ img{ margin:0; padding:0;}
 	bottom: 0;
 	right: 0;
 	z-index: 900;
-
+}
+#menu #connection a{
+	opacity: 0.4;
+}
+#menu #connection a:hover{
+	opacity: 1;
 }
 
 #menu li:hover{
@@ -150,6 +155,7 @@ a{
 
 #wheel{
 	display: inline-block;
+	position: relative;
 	margin-left: 60px;
 	opacity:0.5;
 }
@@ -175,6 +181,7 @@ a{
     -o-transition: opacity 0.2s ease-in-out;
     -ms-transition: opacity 0.2s ease-in-out;    
     transition: opacity 0.2s ease-in-out;
+    -webkit-backface-visibility:hidden;
 }
 
 
@@ -430,8 +437,18 @@ input:focus:-ms-input-placeholder { /* Internet Explorer 10+ */
     box-shadow: -10px 10px 10px rgba(10,10,10,0.5);
     text-align: center;
     display: none;
-
+  
 }
+#loginscreen #close{
+	opacity: 0.5;
+	position: absolute;
+	right: 0;
+	margin: 10px;
+}
+#loginscreen #close:hover{
+	opacity: 1;
+}
+
 #loginscreen h1{
 	font-family: cool_font;
 	text-align: center;

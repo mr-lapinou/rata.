@@ -111,6 +111,9 @@ function login(){
 	});
 	return false;
 }
+function dismissLoginScreen(){
+	$("#loginscreen").hide( 'slide', { direction : 'up'  }, 200);
+}
 
 function createMessageBox(title, content)
 {
