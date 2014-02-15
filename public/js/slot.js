@@ -103,7 +103,7 @@ function login(){
 		$("#loading").fadeOut('fast');
 	}).done(function(response){
 		if(response.error){
-			createMessageBox("Erreur", "Imposible de vous connecter. Vérifier votre login et votre mot de passe.")			
+			createMessageBox("Erreur", "Connexion impossible. Vérifiez votre login et votre mot de passe.")			
 		}else{
 			$('.overlay').fadeOut();
 		}

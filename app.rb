@@ -87,11 +87,12 @@ class RataApi < Grape::API
 
 	resources :user do
 		get 'login' do
-			if(RataModel::User.login(params[:login], params[:password]))
+			user=RataModel::User.first(:login => params[:login], :password =>params[:password])
+			if(user)
 				session[:user_id] = params[:login]
-				"logged in "
+				{:name => user.login}
 			else
-				"failed"
+				{:error=> "denied"}
 			end
 		end
 
