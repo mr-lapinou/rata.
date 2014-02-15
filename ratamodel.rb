@@ -5,7 +5,7 @@ require 'dm-postgres-adapter'
 module RataModel
 	DataMapper::Logger.new($stdout, :debug)
 	DataMapper.setup(:default, 'postgres://nonghnqtvzgyia:MRUzn0Ipw5FZ_5tf62bUx-vROu@ec2-54-225-103-9.compute-1.amazonaws.com:5432/dblm4gio1egjda')
-
+	#DataMapper.setup(:default, 'sqlite:///users/tperson/rata_git/rata.db')
 	class Recipe
 		include DataMapper::Resource
 
@@ -24,7 +24,7 @@ module RataModel
 			Recipe.all(:privacy => privacy) & Recipe.all(:isAppetizer =>true)
 		end
 		def self.listStarter(privacy)
-			Recipe.all(:privacy => privacy) & Recipe.all(:isStarter =>true)
+			Recipe.all(:privacy => privacy, :isStarter =>true)
 		end
 		def self.listCourse(privacy)
 			Recipe.all(:fields=>[:id], :privacy => privacy, :isCourse =>true)

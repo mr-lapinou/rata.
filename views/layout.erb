@@ -19,44 +19,55 @@
 			#rightpanel, #uppercontainer, #lowercontainer,#wheel,#highlightcontainer{
 				visibility: hidden ;
 			}
-
-
 			<%else%>
-			#homecontainer{
-				display:none;
-			}
-			#searchfield{
+			#homecontainer, #searchfield, #connection{
 				display: none;
 			}
 			<% end %>
 		</style>
 		<div id="top_gradient"></div>
-		
-		<div>
-			<div id="menu">
-				<h1><a href="/" name="0" title=""><img src="/img/logo.png" /></a></h1>
-				<ul>
-					<li id="menu1" <% if(@pagenumber==1) %> class="selected "<% end %>	><div class="tooltip">Amuse-bouches<img src="/img/topping_arrow-01.png"/></div><a title="Amuse-bouches" name="1" href="/recipes/1" ><img src="/img/picto-01.png"></a></li>
-					<li id="menu2" <% if(@pagenumber==2) %> class="selected "<% end %>	><div class="tooltip">Entrées<img src="/img/topping_arrow-02.png"/></div><a title="Entrées" name="2" href="/recipes/2" ><img src="/img/picto-02.png"></a></li>
-					<li id="menu3" <% if(@pagenumber==3) %> class="selected "<% end %>	><div class="tooltip">Plats<img src="/img/topping_arrow-03.png"/></div><a title="Plats" name="3" href="/recipes/3" ><img src="/img/picto-03.png"></a></li>
-					<li id="menu4" <% if(@pagenumber==4) %> class="selected "<% end %>	><div class="tooltip">Accompagnements<img src="/img/topping_arrow-04.png"/></div><a title="Accompagnements" name="4" href="/recipes/4" ><img src="/img/picto-04.png"></a></li>
-					<li id="menu5" <% if(@pagenumber==5) %> class="selected "<% end %>	><div class="tooltip">Desserts<img src="/img/topping_arrow-05.png"/></div><a title="Desserts" name="5" href="/recipes/5"><img src="/img/picto-05.png"></a></li>
-				</ul>
-				<ul id="connection">
-					<li>
-						<img src="/img/toque.png" />
-						<a title="login" name="login" href="/login">Me connecter.</a>
-					</li>
-
-				</ul>
+		<div id="menu">
+			<h1><a href="/" name="0" title=""><img src="/img/logo.png" /></a></h1>
+			<ul>
+				<li id="menu1" <% if(@pagenumber==1) %> class="selected "<% end %>	><div class="tooltip">Amuse-bouches<img src="/img/topping_arrow-01.png"/></div><a title="Amuse-bouches" name="1" href="/recipes/1" ><img src="/img/picto-01.png"></a></li>
+				<li id="menu2" <% if(@pagenumber==2) %> class="selected "<% end %>	><div class="tooltip">Entrées<img src="/img/topping_arrow-02.png"/></div><a title="Entrées" name="2" href="/recipes/2" ><img src="/img/picto-02.png"></a></li>
+				<li id="menu3" <% if(@pagenumber==3) %> class="selected "<% end %>	><div class="tooltip">Plats<img src="/img/topping_arrow-03.png"/></div><a title="Plats" name="3" href="/recipes/3" ><img src="/img/picto-03.png"></a></li>
+				<li id="menu4" <% if(@pagenumber==4) %> class="selected "<% end %>	><div class="tooltip">Accompagnements<img src="/img/topping_arrow-04.png"/></div><a title="Accompagnements" name="4" href="/recipes/4" ><img src="/img/picto-04.png"></a></li>
+				<li id="menu5" <% if(@pagenumber==5) %> class="selected "<% end %>	><div class="tooltip">Desserts<img src="/img/topping_arrow-05.png"/></div><a title="Desserts" name="5" href="/recipes/5"><img src="/img/picto-05.png"></a></li>
+			</ul>
+			<div id="connection">									
+				<a title="login" name="login" href="/login" >
+					<img src="/img/toque.png" />
+					<span>Se connecter</span>
+				</a>
 			</div>
+		</div>
+		<div id="loginscreen" class=" secondcolor">
+			<form action="#" method="post">
+				<h1>Connexion</h1>
+				<span id="error"></span>
+				<input type="text"  required id="login" name="login" class="firstcolor" placeholder="Login"/>
+				<input type="password" required id="password" name="password" class="firstcolor" placeholder="Mot de passe"/>
+				<a style="margin-left:25px;text-align:left;font-size:80%;" href="#">Mot de passe oublié ?</a>
+				<input type="image" src="/img/connection.png" alt="submit" name="submit" />
+
+		<p><a href='#'>Pas encore inscrit ? Créez un compte !</a></p>
+		
+	</form>
+</div>
 		<%= yield %>
 		<div id="bottom_gradient"></div>
 		<div id="footer">
 			Création originale <a href="https://twitter.com/Lolyan_">@lolyan_</a> et <a href="https://twitter.com/mrlapinou">@mrlapinou</a>.
 		</div>
+		<div id='messagebox' class="secondcolor">
+			<h1>title</h1>
+			<p>Content</p>
+			<input type="button" class="firstcolor" value="Fermer" onclick="dismissMessageBox(); return false;"/>
+		</div>
+
 		<div id="loading"><img src="/img/loading.gif" /></div>
-		
+		<div class="overlay"></div>
 		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 		<script src="/js/jquery.history.js"></script>
 		<script src="/js/slot.js"></script>

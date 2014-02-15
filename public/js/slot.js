@@ -7,9 +7,18 @@ var animation_time=2;
 var	colorscheme= ["#D82900","#6e4c5a","#d15490","#a8ba42","#fc872e","#3a817d"];
 var colorschemeband= ["#871600","#4F3742","#9b4070","#8a9335","#c96928","#2e635f"];
 var timerPanelID;
-
+var xhr=null;
 
 var spinvalue;
+
+function checkxhr(){
+	if(xhr!=null){
+		xhr.abort();
+		xhr=null;
+	}
+}
+
+
 
 $(document).ready(function(){
 	$.ajaxSetup ({  cache: false});
@@ -28,6 +37,10 @@ $(document).ready(function(){
 				spin(1);
 		}
 	});
+
+	$('#loginscreen> form').submit(login);
+
+
 	$("#menu a").click(clickLink);
 
 	$(function() {
@@ -68,8 +81,59 @@ $(document).ready(function(){
 
 function clickLink(event){
 	target = event.currentTarget;
-	History.pushState({recipe:target.name}, "Rata. "+target.title, target.href); 
+	if(target.name=="login"){
+		$("#loginscreen").show( 'slide', { direction : 'up' }, 300);
+	}else{
+		History.pushState({recipe:target.name}, "Rata. "+target.title, target.href); 
+	}
 	return event.preventDefault();
+}
+
+function login(){
+	log = $("#loginscreen > form #login").val();
+	pwd = $("#loginscreen > form #password").val();
+	$('.overlay').fadeIn('fast');
+	$("#loading").fadeIn('fast');
+	$.ajax({
+		type: "GET",
+		url: 'user/login',
+		data:{login: log, password: pwd},
+		dataType:'json'
+	}).always(function(){
+		$("#loading").fadeOut('fast');
+	}).done(function(response){
+		if(response.error){
+			createMessageBox("Erreur", "Imposible de vous connecter. Vérifier votre login et votre mot de passe.")			
+		}else{
+			$('.overlay').fadeOut();
+		}
+
+	});
+	return false;
+}
+
+function createMessageBox(title, content)
+{
+	mb = $('#messagebox');
+	t= $('#messagebox >h1');
+	c= $('#messagebox >p');
+	if(!mb.hasClass('hidden')){
+		mb.fadeOut('fast');
+		mb.addClass('hidden');
+	}
+	t.empty();
+	c.empty();
+	t.append(title);
+	c.append(content);
+	mb.fadeIn('slow');
+	mb.removeClass('hidden');
+}
+
+function dismissMessageBox(){
+	mb = $('#messagebox');
+	mb.fadeOut('fast');
+	mb.addClass('hidden');
+	$('.overlay').fadeOut('fast');
 }
 
 
@@ -94,11 +158,13 @@ function animationLoadstart(type){
 		$('body' ).animate({ backgroundColor: colorscheme[type]}, 500,function(){
 			$(".secondcolor").css({ "background-color": colorschemeband[type]});
 			$(".firstcolor").css({ "background-color": colorscheme[type]});
+			checkxhr();
 			if(type!='0'){
+				$("#connection").fadeOut(300);
 				$("#searchfield").hide();
+				$('#rightpanel, #uppercontainer, #lowercontainer,#wheel,#highlightcontainer').css({"visibility":'visible'});
 				$("#rightpanel").css('background-image', 'url(/img/filigrane-0' + type + '.png)');
-				$("#menu > ul >#menu"+type).addClass("selected");
-				$.ajax({ type: "GET",
+				xhr =$.ajax({ type: "GET",
 					data: { key: timestamp},
 					cache: true, 
 					url: "/recipes/list/"+type,  
@@ -106,23 +172,29 @@ function animationLoadstart(type){
 				.done(function(content){
 					$(".recipe").remove();
 					fillListRecipes(content);
+					$("#menu > ul >#menu"+type).addClass("selected");
 					loadDetail();
 					animationLoadend();
+					xhr=null;
 				});
 			}else{
+
 				$('#rightpanel, #uppercontainer, #lowercontainer,#wheel,#highlightcontainer').css({"visibility":'hidden'});
 				$('#searchfield').show();
 				$(".recipe").remove();
 				$("#loading").fadeOut("fast");
-				$("#homecontainer").hide( 'slide', { direction : 'right'  }, 300,function(){
+				$("#homecontainer").fadeIn( 300,function(){
 					$("#centercontainer").show( 'slide', { direction : 'right'  }, 500);
+					$("#connection").fadeIn(300);
 				});
+
 			}
 		});		
 	});
 }
 
 function fillListRecipes(content){
+	if(xhr==null) return;
 	var n=0;
 
 	$.each(content, function( i, c ){
@@ -138,6 +210,7 @@ function fillListRecipes(content){
 }
 
 function loadDetail(){
+	if(xhr==null) return;
 	content="";
 	$("#rightpanel >#container").empty();
 	id = $("#highlightcontainer > .recipe").attr('id').replace("recipe_", "");
@@ -165,6 +238,7 @@ function connection(){
 
 
 function animationLoadend(){
+	if(xhr==null) return;
 	$("#loading").fadeOut("fast");
 	openPanel();
 	$("#centercontainer").show( 'slide', { direction : 'right'  }, 500);

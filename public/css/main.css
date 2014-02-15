@@ -68,9 +68,12 @@ img{ margin:0; padding:0;}
 	position: relative;
 }
 #menu #connection{
-
+	display: inline-block;
 	width: 200px;
 	margin-right: 50px;	
+	position: relative;
+	z-index: 900;
+
 }
 
 #menu li:hover{
@@ -168,8 +171,13 @@ a{
     -moz-transition: opacity 0.2s ease-in-out;
     -o-transition: opacity 0.2s ease-in-out;
     -ms-transition: opacity 0.2s ease-in-out;    
-    transition: opacity 0.2s ease-in-out;}
+    transition: opacity 0.2s ease-in-out;
+}
 
+
+input:focus{
+	outline: none;
+}
 
 #rightpanel{
 	padding:2em;
@@ -191,20 +199,31 @@ a{
 	text-align: center;
 }
 #searchfield{
-	width: 300px;
+	width: 354px;
 	height: 100%;
 	margin: auto;
 }
+#searchfield form div{
+	width: 300px;
+	display: inline-block;
+}
 
-#searchfield input[type=image]{
-	float: right;
+#searchfield img{
+	margin: 0;
+	padding: 0;
+	opacity: 0.5;
+}
+#searchfield img:hover{
+	opacity: 1;
 }
 
 #searchfield input[type=text]{
-	width:240px;
+	width:100%;
 	border:none;
 	line-height:3em;
 	padding-left: 5px;
+	font-size: 80%;
+	background-color: transparent;
 	color: white;
 }
 
@@ -312,7 +331,7 @@ a{
     top: 50%;
     left: 50%;
     margin-left: -53px;
-    z-index: 999;
+    z-index: 5000;
     display: none;
 }
 
@@ -345,6 +364,30 @@ a{
 	display: none;
 }
 
+*::-webkit-input-placeholder { /* WebKit browsers */
+    color:    white;
+}
+*:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    white;
+}
+*::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    white;
+}
+*:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    white;
+}
+input:focus::-webkit-input-placeholder { /* WebKit browsers */
+    opacity: 0.5;
+}
+input:focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    opacity: 0.5;
+}
+input:focus::-moz-placeholder { /* Mozilla Firefox 19+ */
+    opacity: 0.5;
+}
+input:focus:-ms-input-placeholder { /* Internet Explorer 10+ */
+    opacity: 0.5;
+}
 
 
 .overlay{
@@ -355,7 +398,7 @@ a{
 	position: fixed;
 	top:0;
 	left:0;
-	z-index: 1001;
+	z-index: 1111;
 	display: 	none;
 }
 
@@ -430,9 +473,34 @@ a{
 	opacity: 1;
 }
 
+#messagebox{
+	width:20%;
+	position: absolute;
+	z-index: 9000;
+	padding: 10px;
+	top:40%;
+	left: 40%;
+	text-align: center;
+	display: none;
 
+}
+#messagebox h1{
+	font-family: cool_font;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
 
+#messagebox p{
+	text-align: center;
+}
 
+#messagebox input{
+	color: white;
+	border: 0;
+	padding: 0.5em;
+	width: 50%;
+}
 
 
 
