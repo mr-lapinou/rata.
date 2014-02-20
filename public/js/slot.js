@@ -10,6 +10,10 @@ var timerPanelID;
 var xhr=null;
 
 var spinvalue;
+var unities=['gramme','Kg','litre','cl','dl','ml','c.a.s','c.a.c','pincée'];
+
+
+
 
 function checkxhr(){
 	if(xhr!=null){
@@ -39,6 +43,20 @@ $(document).ready(function(){
 	});
 
 	$('#loginscreen> form').submit(login);
+
+
+	 $.ui.autocomplete.prototype._renderItem = function( ul, item) {
+        var re = new RegExp(this.term) ;
+        var t = item.label.replace(re,"<span style='text-decoration:underline;'>" + this.term + "</span>");
+        ul.addClass('searchAutocomplete firstcolor');
+        return $( "<li ></li>" )
+            .data( "item.autocomplete", item )
+            .append( "<a>" + t + "</a>" )
+            .appendTo( ul );
+      };
+ 
+
+	$('#unity_1').autocomplete({source: unities});
 
 
 	$("#menu a").click(clickLink);
@@ -117,6 +135,7 @@ function dismissLoginScreen(){
 
 function createMessageBox(title, content)
 {
+	$('.overlay').fadeIn('fast');
 	mb = $('#messagebox');
 	t= $('#messagebox >h1');
 	c= $('#messagebox >p');
@@ -181,7 +200,6 @@ function animationLoadstart(type){
 					xhr=null;
 				});
 			}else{
-
 				$('#rightpanel, #uppercontainer, #lowercontainer,#wheel,#highlightcontainer').css({"visibility":'hidden'});
 				$('#searchfield').show();
 				$(".recipe").remove();
@@ -197,7 +215,7 @@ function animationLoadstart(type){
 }
 
 function fillListRecipes(content){
-	if(xhr==null) return;
+	if(xhr!=null) return;
 	var n=0;
 
 	$.each(content, function( i, c ){
@@ -213,32 +231,35 @@ function fillListRecipes(content){
 }
 
 function loadDetail(){
-	if(xhr==null) return;
+	
 	content="";
-	$("#rightpanel >#container").empty();
-	id = $("#highlightcontainer > .recipe").attr('id').replace("recipe_", "");
+	$("#rightpanel #recipeview").empty();
+	$("#recipeedit").hide();
+	id = $("#highlightcontainer > .recipe").attr('id').replace("recipe_", "").replace(/ /g,'');
 	if(id=="null"){
 		$("#rightpanel > #continer").append("<h1>Ajouter ma première recette.</h1>");
 	}else{
 		$('#loadingrecipe').fadeIn('fast');
+		url = "/recipes/detail/"+id;
 		$.ajax({ type: "GET",
-				data: { key: timestamp},
+				data: {'key': timestamp},
 				cache: true, 
-				url: "/recipes/detail/"+id,  
+				url: url,  
 				dataType:"json"})
 		.done(function(content){
 			$('#loadingrecipe').fadeOut('slow');
-			$("#rightpanel > #container").css({'display':'none'});
-			$("#rightpanel > #container").append("<h1>"+content.title+"</h1>");
-			$("#rightpanel > #container").fadeIn('slow');
+			$("#rightpanel  #recipeview").css({'display':'none'});
+			$("#rightpanel  #recipeview").append("<h1>"+content.title+"</h1>");
+
+			var obj = jQuery.parseJSON(content.text);
+			$("#rightpanel  #recipeview").append("<h2>Ingrédients :</h2>");
+			ul=$("<ul class='ingredientslist'></ul>");
+
+			$("#rightpanel  #recipeview").append("<h2>Etapes :</h2>");
+			$("#rightpanel  #recipeview").fadeIn('slow');
 		});
 	}
 }
-
-function connection(){
-	alert("connection ");
-}
-
 
 function animationLoadend(){
 	if(xhr==null) return;
@@ -247,19 +268,139 @@ function animationLoadend(){
 	$("#centercontainer").show( 'slide', { direction : 'right'  }, 500);
 }
 
-function addRecipeToList(r){
+function addRecipeToList(r,first){
+	if(typeof(first)==='undefined') first=false;
 	var n= $(".recipelist div").length+$("#highlightcontainer > .recipe").length;
 	var nup = $("#upperlist > .recipe").length;
-	if(n==0){
+	recipe =$("#highlightcontainer > .recipe").length;
+	if(first){
+		if(n==0){
+			
+		}else if(nup<3){
+			l = $("#highlightcontainer > .recipe").remove();
+			if(recipe>0)		 
+			$("#upperlist").prepend(l);
+		}else{
+			l = $("#highlightcontainer > .recipe").remove();	
+			if(recipe>0)		 
+			$("#lowerlist").prepend(l);
+		}
 		$("#highlightcontainer").append(r);
-	}else if(nup<3){
-		$("#upperlist").append(r);
 	}else{
-		$("#lowerlist").append(r);
+		if(n==0){
+			$("#highlightcontainer").append(r);
+		}else if(nup<3){
+			$("#upperlist").append(r);
+		}else{
+			$("#lowerlist").append(r);
+		}
 	}
 }
 
 
+function addRecipeStep(){
+	i=$('.step').length+1;
+	t = $("<li id='step_"+i+"' class='step'><span class='grab'></span></li>");
+	t.append("<div class='delete clickable'><a href='#' onclick='deleteStep("+i+");return false;'> <img src='/img/delete.png' /></a></a></div>");
+	t.append("<div class='content'><textarea wrap='hard' rows=2 class='firstcolor' name='content_"+i
+	 	+"' onkeyup='(Math.max(this.value.split(\"\n\").length,2)||2);' placeholder='Nouvelle étape'></textarea></div>");
+	t.hide();
+	t.append("<div id='addstep' class='clickable'><a href='#'  onclick='addRecipeStep();return false;'><img src='/img/add.png' /></a></div>");
+	t.appendTo($('#stepcontainer'));
+	container =$("#stepcontainer");
+	container.animate({scrollTop: container.height()}, 300);
+	t.fadeIn('slow');
+}
+
+function addIngredient(){
+	i=$('.ingredientitem').length+1;
+	t = $("<li id='ingredient_"+i+"' class='ingredientitem'></li>");
+	t.append("<div class='delete clickable'><a href='#' onclick='deleteIngredient("+i+");return false;'> <img src='/img/delete.png' /></a></a></div>");
+	t.append("<div class='inputs'>"+
+				"<input type='text' name='ingredient_"+i+"' id='ingredient_"+i+"' class='ingredient firstcolor' placeholder='Ingrédient'/>"+
+				"<input type='text' name='quantity_"+i+"' id='quantity_"+i+"' maxlength='5' size='5' class='quantity firstcolor' placeholder='Qté' />"+
+				"<input type='text' name='unity_"+i+"' id='unity_"+i+"' class='unity firstcolor' placeholder='Unité' />"+
+				"</div>");
+	t.hide();
+	t.append("<div id='addstep' class='clickable'><a href='#'  onclick='addIngredient();return false;'><img src='/img/add.png' /></a></div>");
+	t.appendTo($('#ingredientcontainer'));
+	container =$("#ingredientcontainer");
+	$('#unity_'+i).autocomplete({source: unities});
+	container.animate({scrollTop: container.height()}, 300);
+	t.fadeIn('slow');
+}
+
+
+
+function deleteStep(step){
+	$('#step_'+step).hide( 'slide', { direction : 'right'  }, 400, function(){
+		this.remove();
+	});
+}
+
+
+function deleteIngredient(ing){
+	$('#ingredient_'+ing).hide( 'slide', { direction : 'right'  }, 400, function(){
+		this.remove();
+	});
+}
+
+function buildRecipe(){
+	//title
+	title=$('#recipeedit #title').val();
+	if(title==0){
+		createMessageBox("Erreur","Votre recette doit avoir un titre.");
+		return;
+	}
+	//types
+	types={ 'isAppetizer' : true,
+		 	'isStarter' :true,
+		 	'isCourse' :true,
+		 	'isSideCourse' :true,
+		 	'isDesert' : true};
+	//ingredients
+	ingredients=[];
+	$('.ingredientitem').each(function(){
+		name= $('.ingredient',this).val();
+		quantity= $('.quantity',this).val();
+		unity = $('.unity',this).val();
+		if(name!=''){
+			ingredients.push({'name': name, 'quantity': quantity, 'unity':unity});
+		}
+	});
+	//steps
+	steps=[];
+	$('.step').each(function(){
+		content = $('textarea' , this).val();
+		if(content!=''){
+			steps.push({'detail': content});
+		}
+	});
+	data={
+		'title' : title,
+		'type' : types,
+		'privacy'  : '0',
+		'content': {
+			'ingredient': ingredients,
+			'step' : steps
+		}
+	};
+	$.ajax({
+          url: "/recipes/create",
+          type: "POST",
+          data: {content: JSON.stringify(data) },
+          dataType: "json",
+          beforeSend: function(x) {
+            if (x && x.overrideMimeType) {
+              x.overrideMimeType("application/j-son;charset=UTF-8");
+            }
+          },
+          success: function(result) {
+ 			addRecipeToList("<div class='recipe' id='recipe_" + result.id + "'>" + result.title + "</div>",true);
+          }
+	});
+
+}
 
 
 
@@ -270,6 +411,7 @@ function closePanel(callback){
 }
 
 function openPanel(){
+
 	$("#rightpanel").show( 'slide', { direction : 'right'  }, 300);
 }
 
@@ -286,7 +428,7 @@ function spin(delta){
 	if (rolling) return;
 	numberitems = $(".recipelist div").length+1;
 	if(numberitems==1) return;
-	rolling =true;
+	rolling =true;loa
 	cancelPanelOpening();
 	if(delta<0)
 		closePanel(spinUp);

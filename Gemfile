@@ -7,3 +7,4 @@ gem 'sinatra'
 gem 'dm-postgres-adapter'
 gem 'grape'
 gem 'warden'
+gem 'do_sqlite3', "~> 0.10.14"

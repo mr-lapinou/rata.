@@ -52,17 +52,60 @@
 <div id="rightpanel" class="secondcolor">
 	<div id="loadingrecipe"><img src="/img/loading.gif" /></div>
 	<div id="container">
-		<form class="createrecipe">
-			<h1>Nouvelle recette</h1>
-			<label>Titre :</label><input  class="firstcolor" type="text" name=""/>
-			<label>Mots-clés :</label>
-			<input id="taglist" type="text" class="firstcolor" name="taglist"/>
-			<label>Recette :</label>
-			<textarea class="firstcolor" ></textarea>
-		</form>
-	</div>
+		
+		<% if @current==-1 %>
+			<h2><a href='#'><img src='/img/add.png' />Ajouter ma première recette.</a></h2>
+		<% else %>
+			<div id="recipeview">
+				<h1><%= @recipe['title'] %></h1>
+				<h2>Ingrédients :</h2>
+				<ul>
+				<% @content['ingredient'].each do |ing| %>
+					<li>
+						<span class='quantity'><%= ing['quantity'] %></span>  
+						<span class='unity'><%=ing['unity'] %></span> 
+						<span class='name'><%= ing['name'] %> </span>
+					</li>
+				<% end %>
+				</ul>
+				<h2>Etapes :</h2>
+				<ol>
+					<% @content['step'].each do |step| %>
+					<li><%= step['detail'] %> </li>
+				<% end %>
+				</ol>
+			</div>
+		<%end %>
 
+		<div id="recipeedit">
+			<a href='#' onclick='buildRecipe();return false;'>OK</a>
+			<h1><input id='title' required placeholder='Titre' class='firstcolor' type='text' name='title'></h1>
+
+			<h2>Ingrédients :</h2>		
+			<ul id='ingredientcontainer'>
+				<li id="ingredient_1" class="ingredientitem" style="">
+					<div class="delete clickable">
+						<a href="#" onclick="deleteIngredient(1);return false;"> <img src="/img/delete.png"></a>
+					</div>
+					<div class="inputs"><input type="text" name="ingredient_1" id="ingredient_1" class="ingredient firstcolor" placeholder="Ingrédient"><input type="text" name="quantity_1" id="quantity_1" maxlength="5" size="5" class="quantity firstcolor" placeholder="Qté"><input type="text" name="unity_1" id="unity_1" class="unity firstcolor " placeholder="Unité" ></div><div id="addstep" class="last clickable"><a href="#" onclick="addIngredient();return false;"><img src="/img/add.png"></a></div></li>
+
+			</ul>
+
+			<h2>Etapes :</h2>		
+			<ul id="stepcontainer">
+				<li id="step_1" class="step last">
+					<span class="grab"></span>
+					<div class="delete clickable"><a href="#" onclick='deleteStep(1);return false;'><img src='/img/delete.png' /></a></div>
+					<div class='content'>
+						<textarea  class='firstcolor' rows=2 warp='hard' name='content_1' onkeyup='this.rows = (Math.max(this.value.split("\n").length,2)||2);' placeholder="Nouvelle étape"></textarea>
+					</div>
+					<div id="addstep" class='last clickable'><a href='#'  onclick='addRecipeStep();return false;'><img src='/img/add.png' /></a></div>
+				</li>
+			</ul>
+		</div>
+	</div>
 </div>
+
 
 
 	

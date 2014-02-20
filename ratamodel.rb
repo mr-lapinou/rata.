@@ -4,8 +4,9 @@ require 'dm-postgres-adapter'
 
 module RataModel
 	DataMapper::Logger.new($stdout, :debug)
-	DataMapper.setup(:default, 'postgres://nonghnqtvzgyia:MRUzn0Ipw5FZ_5tf62bUx-vROu@ec2-54-225-103-9.compute-1.amazonaws.com:5432/dblm4gio1egjda')
+	#DataMapper.setup(:default, 'postgres://nonghnqtvzgyia:MRUzn0Ipw5FZ_5tf62bUx-vROu@ec2-54-225-103-9.compute-1.amazonaws.com:5432/dblm4gio1egjda')
 	#DataMapper.setup(:default, 'sqlite:///users/tperson/rata_git/rata.db')
+	DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/development.db")
 	class Recipe
 		include DataMapper::Resource
 

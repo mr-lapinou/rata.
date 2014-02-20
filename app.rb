@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'grape'
+require 'json'
 require './ratamodel'
 
 
@@ -59,6 +60,23 @@ class RataApi < Grape::API
 				:isSideCourse =>false,
 				:isDesert =>false,
 				:privacy => 0})
+		end
+
+		params do
+        	requires :content, type: String
+      	end
+		post 'create' do
+			content = JSON.parse(params[:content])
+			puts content['content'].to_json
+			RataModel::Recipe.create({
+				:title => content['title'].to_s,
+				:text => content['content'].to_json,
+				:isAppetizer =>content['type']['isAppetizer'],
+				:isStarter => content['type']['isStarter'],
+				:isCourse =>content['type']['isCourse'],
+				:isSideCourse =>content['type']['isSideCourse'],
+				:isDesert =>content['type']['isDesert'],
+				:privacy => content['privacy']})
 		end
 
 
@@ -185,11 +203,16 @@ class RataApp < Sinatra::Base
 		@upper=[]
 		@middle=[]
 		@lower=[]
+		@current=-1
 		i=0
 		out.each do |x|
 			puts x
 			if(i==0)
 				@middle.push({x.id => x.title})
+				@current = x.id
+				@recipe = RataModel::Recipe.get(x.id)
+				@content = JSON.parse(@recipe['text'])
+				puts @content
 			elsif(i<=3)
 				@upper.push({x.id => x.title})
 			else
@@ -200,6 +223,7 @@ class RataApp < Sinatra::Base
 		end
 		@firstcolor=colorscheme[@pagenumber]
 		@secondcolor=colorschemesecond[@pagenumber]
+
 		
 		erb :home, :locals => {:timestamp =>timestamp}
 	end
