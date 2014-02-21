@@ -76,7 +76,8 @@ class RataApi < Grape::API
 				:isCourse =>content['type']['isCourse'],
 				:isSideCourse =>content['type']['isSideCourse'],
 				:isDesert =>content['type']['isDesert'],
-				:privacy => content['privacy']})
+				:privacy => content['privacy'],
+				:person => 2})
 		end
 
 
@@ -171,6 +172,8 @@ class RataApp < Sinatra::Base
 		@pagenumber=0;
 		@firstcolor=colorscheme[0]
 		@secondcolor=colorschemesecond[0]
+		@recipe={'title' =>'', 'person'=>2 }
+		@content = {'ingredient' =>[], 'step' =>[]}
 		erb :home, :locals => {:timestamp =>timestamp}
 
 	end
@@ -206,7 +209,6 @@ class RataApp < Sinatra::Base
 		@current=-1
 		i=0
 		out.each do |x|
-			puts x
 			if(i==0)
 				@middle.push({x.id => x.title})
 				@current = x.id

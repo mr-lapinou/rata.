@@ -9,6 +9,7 @@ var colorschemeband= ["#871600","#4F3742","#9b4070","#8a9335","#c96928","#2e635f
 var timerPanelID;
 var xhr=null;
 
+
 var spinvalue;
 var unities=['gramme','Kg','litre','cl','dl','ml','c.a.s','c.a.c','pincée'];
 
@@ -34,7 +35,7 @@ $(document).ready(function(){
     	changeContent(next);
     });
 	$(document).keydown(function(e){
-		if($("input:focus").length==0){
+		if($("input:focus,select:focus").length==0){
 			if(e.which==38) 
 				spin(-1);
 			else if (e.which==40) 
@@ -158,8 +159,6 @@ function dismissMessageBox(){
 	$('.overlay').fadeOut('fast');
 }
 
-
-
 function luckywheel(){
 	if (rolling) return;
 	numberitems = $(".recipelist div").length+1;
@@ -174,6 +173,7 @@ function changeContent (type){
 	closePanel(animationLoadstart(type));
 }
 function animationLoadstart(type){
+	currentTheme = type;
 	$("#centercontainer").hide( 'slide', { direction : 'right'  }, 300, function(){
 		$("#menu > ul > .selected").removeClass("selected");
 		$("#loading").fadeIn();
@@ -192,12 +192,12 @@ function animationLoadstart(type){
 					url: "/recipes/list/"+type,  
 					dataType:"json"})
 				.done(function(content){
+					xhr=null;
 					$(".recipe").remove();
 					fillListRecipes(content);
 					$("#menu > ul >#menu"+type).addClass("selected");
-					loadDetail();
 					animationLoadend();
-					xhr=null;
+					
 				});
 			}else{
 				$('#rightpanel, #uppercontainer, #lowercontainer,#wheel,#highlightcontainer').css({"visibility":'hidden'});
@@ -214,6 +214,12 @@ function animationLoadstart(type){
 	});
 }
 
+function updatecolor(){
+	$(".secondcolor").css({ "background-color": colorschemeband[currentTheme]});
+	$(".firstcolor").css({ "background-color": colorscheme[currentTheme]});
+} 
+
+
 function fillListRecipes(content){
 	if(xhr!=null) return;
 	var n=0;
@@ -228,20 +234,24 @@ function fillListRecipes(content){
   	if(n==0){
   		$("#highlightcontainer").append("<div class='recipe highlight' id='recipe_null'>Aucune recette.</div>");
   	}
+  	requestPanelOpening(loadDetail);
 }
 
 function loadDetail(){
-	
 	content="";
-	$("#rightpanel #recipeview").empty();
+	$("#recipeview").hide();
 	$("#recipeedit").hide();
-	id = $("#highlightcontainer > .recipe").attr('id').replace("recipe_", "").replace(/ /g,'');
+	recipe =  $("#highlightcontainer > .recipe");
+	if(recipe === undefined) return;
+	id = recipe.attr('id').replace("recipe_", "").replace(/ /g,'');
 	if(id=="null"){
 		$("#rightpanel > #continer").append("<h1>Ajouter ma première recette.</h1>");
 	}else{
 		$('#loadingrecipe').fadeIn('fast');
 		url = "/recipes/detail/"+id;
-		$.ajax({ type: "GET",
+		checkxhr();
+		
+		xhr =$.ajax({ type: "GET",
 				data: {'key': timestamp},
 				cache: true, 
 				url: url,  
@@ -249,22 +259,39 @@ function loadDetail(){
 		.done(function(content){
 			$('#loadingrecipe').fadeOut('slow');
 			$("#rightpanel  #recipeview").css({'display':'none'});
-			$("#rightpanel  #recipeview").append("<h1>"+content.title+"</h1>");
+			$("#rightpanel  #recipeview #title").text(content.title);
 
 			var obj = jQuery.parseJSON(content.text);
-			$("#rightpanel  #recipeview").append("<h2>Ingrédients :</h2>");
-			ul=$("<ul class='ingredientslist'></ul>");
+			$('#recipeview select').val(content.person);
+			$('#recipeview #person #default').text(content.person);
+			ilist = $("#rightpanel  #recipeview #ingredientlist");
+			ilist.empty();
+			obj.ingredient.forEach(function(entry){
+				s='';
+				if(entry.quantity>1 && entry.unity!='') s='s';
+				li ="<li> "+ 
+						"<span class='name'>"+entry.name+"</span>"+
+						"<span class='unity'>"+entry.unity+s+"</span>"+
+				        "<span class='quantity' data-default='"+entry.quantity+"'>"+entry.quantity+"</span>"+
+				    "</li>";
 
-			$("#rightpanel  #recipeview").append("<h2>Etapes :</h2>");
+				ilist.append(li);
+			});
+
+			slist = $("#rightpanel  #recipeview #steplist");
+			slist.empty();
+			obj.step.forEach(function(entry){
+				li ="<li>"+entry.detail+"</li>";
+				slist.append(li);
+			});
 			$("#rightpanel  #recipeview").fadeIn('slow');
 		});
 	}
 }
 
 function animationLoadend(){
-	if(xhr==null) return;
 	$("#loading").fadeOut("fast");
-	openPanel();
+	requestPanelOpening();
 	$("#centercontainer").show( 'slide', { direction : 'right'  }, 500);
 }
 
@@ -298,6 +325,25 @@ function addRecipeToList(r,first){
 }
 
 
+function newRecipe(){
+	closePanel(showEdit);
+}
+
+function showEdit(){
+	$('#recipeview').hide();
+	clearform();
+	$('#recipeedit').show();
+	openPanel();
+}
+
+function clearform(){
+	$("#ingredientcontainer").find(".ingredientitem:gt(0)").remove();
+	$("#stepcontainer").find(".step:gt(0)").remove();
+	$('input[type=text], textarea', '#recipeedit').val("");
+}
+
+
+
 function addRecipeStep(){
 	i=$('.step').length+1;
 	t = $("<li id='step_"+i+"' class='step'><span class='grab'></span></li>");
@@ -307,9 +353,11 @@ function addRecipeStep(){
 	t.hide();
 	t.append("<div id='addstep' class='clickable'><a href='#'  onclick='addRecipeStep();return false;'><img src='/img/add.png' /></a></div>");
 	t.appendTo($('#stepcontainer'));
+	updatecolor();
 	container =$("#stepcontainer");
 	container.animate({scrollTop: container.height()}, 300);
 	t.fadeIn('slow');
+	$("#step_"+i+" textarea").focus();
 }
 
 function addIngredient(){
@@ -324,10 +372,14 @@ function addIngredient(){
 	t.hide();
 	t.append("<div id='addstep' class='clickable'><a href='#'  onclick='addIngredient();return false;'><img src='/img/add.png' /></a></div>");
 	t.appendTo($('#ingredientcontainer'));
+	updatecolor();
 	container =$("#ingredientcontainer");
 	$('#unity_'+i).autocomplete({source: unities});
 	container.animate({scrollTop: container.height()}, 300);
-	t.fadeIn('slow');
+	t.fadeIn('slow',function(){
+		$(".ingredient", this).focus();
+	});
+	
 }
 
 
@@ -397,6 +449,7 @@ function buildRecipe(){
           },
           success: function(result) {
  			addRecipeToList("<div class='recipe' id='recipe_" + result.id + "'>" + result.title + "</div>",true);
+          	closePanel(function(){requestPanelOpening(loadDetail);});
           }
 	});
 
@@ -410,13 +463,14 @@ function closePanel(callback){
 	$("#rightpanel").hide( 'slide', { direction : 'right'  }, 300,callback);
 }
 
-function openPanel(){
+function openPanel(callback){
+	if(callback!==undefined) callback();
 
 	$("#rightpanel").show( 'slide', { direction : 'right'  }, 300);
 }
 
-function requestPanelOpening(){
-	timerPanelID = window.setTimeout(openPanel, 700);
+function requestPanelOpening(callback){
+	timerPanelID = window.setTimeout(function(){openPanel(loadDetail);}, 700);
 }
 
 function cancelPanelOpening(){
@@ -428,7 +482,7 @@ function spin(delta){
 	if (rolling) return;
 	numberitems = $(".recipelist div").length+1;
 	if(numberitems==1) return;
-	rolling =true;loa
+	rolling =true;
 	cancelPanelOpening();
 	if(delta<0)
 		closePanel(spinUp);
@@ -511,6 +565,19 @@ function spinUp(){
 	});
 }
 	
+function computeQuantity(v){
+	def = parseInt($('#person #default').text());
+	ratio = v/def;
+	console.log(ratio);
+	$('#ingredientlist .quantity').each(function(){
+		q = parseFloat($(this).data('default'));
+		if(!isNaN(q))
+			$(this).text(q*ratio);
+	});
+
+}
+
+
 
 function speedDown(){
 	rolls++;

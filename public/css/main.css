@@ -565,7 +565,9 @@ h1,  h2{
 }
 
 
-
+.hidden{
+	display: none;
+}
 
 #recipeview {
 	height : 100%;
@@ -574,6 +576,63 @@ h1,  h2{
 #recipeview h1 {
 	text-align: center;
 }
+
+#recipeview select {
+	background-color: transparent;
+	font-size: 16px;
+	width: 100px;
+	outline: none;
+	color: white;
+	line-height: 1;
+	border: 0;
+	border-radius: 0;
+	padding-right: 55px;
+	height: 34px;
+	-webkit-appearance: none;
+}
+
+
+#recipeview #ingredientlist{
+	list-style-type: square;
+	margin-left:2em;
+
+}
+
+#recipeview .select{
+	display: inline-block;
+	overflow: hidden;
+	opacity: 0.8;
+	width: 100px;
+	background-image: url('/img/arrow_down.png');
+	background-repeat:  no-repeat;
+	background-position:  right;
+}
+#recipeview li{
+	margin-bottom: 2px;
+	padding: 0.2em;
+}
+#recipeview .quantity,#recipeview .unity{
+	float: right;
+	padding-right: 0.3em;
+
+}
+
+#recipeview li:nth-child(odd){
+	background-color: rgba(80,80,80,0.1);
+}
+#recipeview li:nth-child(even){
+	background-color: rgba(80,80,80,0.0);
+}
+
+#recipeview li:hover{
+	background-color: rgba(80,80,80,0.2);
+}
+
+
+
+#recipeview select:focus  .select{
+   opacity: 1;
+ }
 
 
 *::-webkit-input-placeholder { /* WebKit browsers */
@@ -694,6 +753,8 @@ input:focus:-ms-input-placeholder { /* Internet Explorer 10+ */
 	border: 0;
 	opacity: 1;
 }
+
+
 
 #messagebox{
 	width:20%;

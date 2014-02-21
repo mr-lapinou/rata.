@@ -19,6 +19,7 @@ module RataModel
 		property :isSideCourse, Boolean
 		property :isDesert, Boolean
 		property :privacy, Integer
+		property :person, Integer
 
 
 		def self.listAppetizer(privacy)

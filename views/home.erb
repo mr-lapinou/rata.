@@ -51,31 +51,46 @@
 </div>
 <div id="rightpanel" class="secondcolor">
 	<div id="loadingrecipe"><img src="/img/loading.gif" /></div>
+	<ul id="crud">
+		<li><a href='#' onclick='newRecipe();return false;'> Ajouter</a></li>
+		<li><a href='#' onclick='newRecipe();return false;'> Editer 	</a></li>
+		<li><a href='#' onclick='newRecipe();return false;'> Supprimer</a></li>
+	</ul>
 	<div id="container">
 		
-		<% if @current==-1 %>
-			<h2><a href='#'><img src='/img/add.png' />Ajouter ma première recette.</a></h2>
-		<% else %>
+			<h2 id='norecipe'><a href='#'><img src='/img/add.png' />Ajouter ma première recette.</a></h2>
 			<div id="recipeview">
-				<h1><%= @recipe['title'] %></h1>
+
+				<h1 id='title'><%= @recipe['title'] %></h1>
+				<div id='person'><span id='default' class='hidden'><%=@recipe['person']%></span>
+					<h2 >Nombre de personnes : </h2>
+					<div class='firstcolor select'>
+						<select dir="rtl" onchange='computeQuantity(this.value);'>
+						<% for i in 2..12 %>
+						  <option <% if i==@recipe['person'] %>selected='selected'<% end %> value="<%= i %>"><%= i %></option>
+						<% end %>
+						</select>
+					</div>
+
+				</div>
 				<h2>Ingrédients :</h2>
-				<ul>
+				<ul id='ingredientlist'>
 				<% @content['ingredient'].each do |ing| %>
 					<li>
-						<span class='quantity'><%= ing['quantity'] %></span>  
-						<span class='unity'><%=ing['unity'] %></span> 
 						<span class='name'><%= ing['name'] %> </span>
+						<span class='unity'><%=ing['unity'] %></span>
+						<span class='quantity' data-default='<%= ing['quantity']%>'><%= ing['quantity'] %></span>  
+						
 					</li>
 				<% end %>
 				</ul>
 				<h2>Etapes :</h2>
-				<ol>
+				<ol id='steplist'>
 					<% @content['step'].each do |step| %>
 					<li><%= step['detail'] %> </li>
 				<% end %>
 				</ol>
 			</div>
-		<%end %>
 
 		<div id="recipeedit">
 			<a href='#' onclick='buildRecipe();return false;'>OK</a>
@@ -111,5 +126,6 @@
 	
 <script type="text/javascript">
 	var timestamp="<%= timestamp %>";
+	var currentTheme = <%= @pagenumber %>;
 </script>
 

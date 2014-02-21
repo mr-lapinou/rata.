@@ -19,6 +19,17 @@
 			#rightpanel{
 				background-image:url(../img/filigrane-0<%= @pagenumber %>.png);
 			}
+
+			<% if @current==-1 %>
+				#recipeview, #recipeedit{
+					display: none;
+				}
+			<%else%>
+				#norecipe{
+					display: none;
+				}
+			<%end%>
+
 			<% if(@pagenumber==0) %>
 			#rightpanel, #uppercontainer, #lowercontainer,#wheel,#highlightcontainer{
 				visibility: hidden ;
